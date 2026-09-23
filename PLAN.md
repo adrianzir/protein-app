@@ -37,7 +37,7 @@ Precisión esperada: identificación buena; **porciones ±20–30 %**. Por eso l
 ## 6. Fases
 | Fase | Duración aprox. | Entregable |
 |---|---|---|
-| 0. Setup | 1 sem | Repo Expo, Supabase, auth, CI |
+| 0. Setup ✅ | 1 sem | Repo Expo, Supabase, auth, CI |
 | 1. Diario manual | 2 sem | Perfil, metas, búsqueda de alimentos, registro, resumen diario |
 | 2. Código de barras | 1 sem | Escaneo con Open Food Facts |
 | 3. Foto con IA | 2–3 sem | Captura, análisis, pantalla de confirmación |
