@@ -1,6 +1,6 @@
 # Spec 001 · Diario manual — Requisitos
 
-**Estado:** Borrador
+**Estado:** Aprobado (2026-09-23)
 **Fase del plan:** 1 (ver [PLAN.md](../../PLAN.md))
 **Plataformas:** Android e iOS
 
@@ -86,9 +86,9 @@ La Fase 0 dejó listos el inicio de sesión y la tabla `profiles`. Esta fase ent
 
 ---
 
-## Preguntas abiertas
-| # | Pregunta | Propuesta por defecto |
+## Decisiones (preguntas resueltas)
+| # | Pregunta | Decisión |
 |---|---|---|
-| Q1 | ¿Los tipos de comida son desayuno, almuerzo, **once**, cena y snack? | Sí, con "once" por uso en Chile |
-| Q2 | ¿Se permite editar las metas a mano (por ejemplo, las indicadas por un nutricionista)? | No en F1; queda para F4 |
-| Q3 | ¿Se incluyen opciones de sexo distintas de hombre/mujer? | La fórmula necesita un valor binario; se muestra como "sexo biológico (para el cálculo)" |
+| Q1 | Tipos de comida | Desayuno, almuerzo, **once**, cena y snack |
+| Q2 | Edición manual de metas | No en F1; queda para F4 |
+| Q3 | Opciones de sexo | Se muestra como "sexo biológico (para el cálculo)": hombre / mujer |
