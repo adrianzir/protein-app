@@ -1,41 +1,75 @@
-This is an Expo/React Native mobile application. Prioritize mobile-first patterns, performance, and cross-platform compatibility.
+# AGENTS.md
 
-## Expo has changed — do not trust your training data
+Guía para agentes de IA (Claude Code, Copilot, Cursor, etc.) que trabajen en este repositorio.
 
-Expo ships breaking changes every SDK release. APIs you remember are likely renamed, moved, or removed. Before writing any code that touches an Expo, EAS, or React Native API:
+## Proyecto
+**Protein App**: app móvil (Android + iOS) para registrar comidas y calcular calorías, proteína, carbohidratos y grasas, con reconocimiento por foto (Fase 3). Plan general en [PLAN.md](PLAN.md).
 
-1. Read the major version of the `expo` package in `package.json`.
-2. Fetch the matching versioned docs: `https://docs.expo.dev/versions/v<major>.0.0/`
-3. For anything else, fetch https://docs.expo.dev/llms.txt — an index of all Expo docs with corrections to common LLM misconceptions. Follow its links to the specific page you need; never answer from memory.
+- **App:** Expo SDK 57 + React Native + TypeScript (strict) + Expo Router.
+- **Backend:** Supabase (Auth, Postgres con RLS, Storage, Edge Functions).
+- **Plataformas objetivo:** Android e iOS. Web solo se usa para pruebas rápidas.
+- **Idioma:** la interfaz, las specs y la documentación van en español; el código (identificadores) en inglés.
 
-## Commands
+## Flujo de trabajo: Spec-Driven Development (SDD)
+Todo cambio funcional parte de una spec en `specs/NNN-nombre/`, en este orden:
 
-Use `bunx` instead of `npx` if the project uses bun (`bun.lock` present).
+| Paso | Archivo | Contenido | Puerta |
+|---|---|---|---|
+| 1 | `requirements.md` | Historias de usuario y criterios de aceptación en formato **EARS** (`CUANDO… EL SISTEMA DEBERÁ…`) | Aprobación del usuario |
+| 2 | `design.md` | Arquitectura, modelo de datos, rutas, componentes, errores y estrategia de pruebas | Aprobación del usuario |
+| 3 | `tasks.md` | Checklist de tareas pequeñas, cada una ligada a requisitos (`R1.2`) | Aprobación del usuario |
+| 4 | Implementación | Una tarea a la vez, marcándola `[x]` en `tasks.md` al terminar | Revisión de código, chequeo de tipos y tests en verde |
 
-```bash
-npx expo install <package>  # ALWAYS use instead of npm/yarn/pnpm/bun add — resolves SDK-compatible versions
-npx expo start              # start the dev server
-npx expo lint               # lint
-npx tsc --noEmit            # typecheck
-npx expo-doctor             # diagnose dependency and config issues
-npx expo install --fix      # fix incompatible package versions
+Reglas:
+- **No escribir código de producción sin spec aprobada.** Correcciones menores (typos, lint) no requieren spec.
+- Si durante la implementación cambia algo del diseño, **actualiza primero la spec** y luego el código.
+- Cada requisito debe quedar cubierto por al menos un test o una verificación manual descrita en `tasks.md`.
+- Estado de una spec: encabezado `Estado: Borrador | Aprobado | Implementado`.
+
+## Estructura
+```
+src/
+  app/          # SOLO pantallas y layouts (Expo Router)
+  features/     # lógica por dominio: api (Supabase), hooks, funciones puras + tests
+  components/   # componentes UI reutilizables
+  lib/          # infraestructura: cliente Supabase, env, utilidades
+  providers/    # contextos React (auth, query client)
+supabase/
+  migrations/   # SQL versionado; nunca editar una migración ya aplicada, crear otra
+specs/          # especificaciones SDD
 ```
 
-Run lint and typecheck before declaring any task done.
+## Convenciones
+- Funciones de cálculo (macros, metas, fechas) **puras** y con tests unitarios junto al archivo (`*.test.ts`).
+- Toda tabla nueva en Supabase lleva **RLS** activado y políticas por `auth.uid()`.
+- Secretos (API keys de IA, USDA) **solo** en Edge Functions; en la app solo variables `EXPO_PUBLIC_*` públicas.
+- Commits pequeños en inglés, en modo imperativo (`Add food search screen`).
 
-## Navigation & Routing
+## Expo cambió: no confíes en tu entrenamiento
+Expo introduce cambios incompatibles en cada SDK. Antes de usar una API de Expo, EAS o React Native:
+1. Revisa la versión mayor de `expo` en `package.json`.
+2. Consulta la documentación de esa versión: `https://docs.expo.dev/versions/v<major>.0.0/`
+3. Para lo demás, usa https://docs.expo.dev/llms.txt como índice.
 
-- Use **Expo Router** for all navigation. Routes live in `src/app/` — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code (components, hooks, utils) outside `src/app/`.
-- Import `Link`, `router`, and `useLocalSearchParams` from `expo-router`.
-- Docs: https://docs.expo.dev/router/introduction.md
+Si no hay acceso a la red, revisa los tipos en `node_modules/<paquete>` y el mapa de versiones `node_modules/expo/bundledNativeModules.json`.
 
-## Building with EAS
+## Comandos
+```bash
+npx expo install <paquete>  # SIEMPRE en vez de npm install: elige versiones compatibles con el SDK
+npm start                   # servidor de desarrollo (Expo Go)
+npm run lint                # ESLint
+npm run typecheck           # tsc --noEmit
+npm test                    # Jest
+npx expo-doctor             # diagnostica dependencias y config
+```
+**Antes de dar una tarea por terminada:** `npm run lint && npm run typecheck && npm test`.
 
-Use EAS to build, sign, and submit the app in the cloud (`eas build`, `eas submit`) and to ship over-the-air updates (`eas update`) — no local Xcode or Android Studio required. Run EAS CLI as `bunx eas-cli <command>` in Bun projects, or `npx eas-cli@latest <command>` otherwise; substitute that for bare `eas` in docs examples.
-Docs: https://docs.expo.dev/eas/index.md
+## Navegación
+- Solo **Expo Router**. Cada archivo en `src/app/` es una pantalla; `_layout.tsx` define navegadores.
+- `(auth)` = pantallas sin sesión; `(app)` = pantallas con sesión (protegidas con `Stack.Protected`).
+- Importa `Link`, `router` y `useLocalSearchParams` desde `expo-router`.
 
-## Rules
-
-- If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
-- Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
-- Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+## Nativo y builds
+- No existen `ios/` ni `android/` (se generan con Continuous Native Generation). Nunca crearlos ni editarlos a mano: configura en `app.json` y config plugins.
+- Expo Go solo incluye sus módulos nativos. Si agregas una librería con código nativo, se necesita un development build (`npx eas-cli@latest build --profile development`).
+- Build y publicación con EAS: `npx eas-cli@latest build|submit|update`.
