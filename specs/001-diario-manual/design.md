@@ -1,6 +1,6 @@
 # Spec 001 · Diario manual — Diseño
 
-**Estado:** Borrador
+**Estado:** Aprobado (2026-09-24)
 **Requisitos:** [requirements.md](requirements.md) (aprobado)
 
 ---
