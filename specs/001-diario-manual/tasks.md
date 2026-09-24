@@ -40,11 +40,11 @@
 
 ## Bloque C · Infraestructura de app
 
-- [ ] **T12 · Dependencias**: `@tanstack/react-query`, `@expo/vector-icons`, `@react-native-community/datetimepicker`, `@testing-library/react-native` (dev), con versiones del SDK 57. _(R8.1)_
+- [x] **T12 · Dependencias**: `@tanstack/react-query`, `@expo/vector-icons`, `@react-native-community/datetimepicker`, `@testing-library/react-native` (dev), con versiones del SDK 57. _(R8.1)_
   ✔ `npx expo-doctor` sin errores de versión (o comparación con `bundledNativeModules.json`).
-- [ ] **T13 · `QueryProvider`** en el layout raíz; `queryClient.clear()` al cerrar sesión. _(R6.5, R7.1)_
+- [x] **T13 · `QueryProvider`** en el layout raíz; `queryClient.clear()` al cerrar sesión. _(R6.5, R7.1)_
   ✔ Al cerrar sesión y entrar con otro usuario no se ven datos del anterior.
-- [ ] **T14 · Tipos de fila** (`features/*/types.ts`) y **api + hooks**: profile, foods (local + OFF + create), diary (CRUD), `useDebouncedValue`. _(R1.3, R3.2, R3.6, R4.1, R5.4, R5.6, R6.5)_
+- [x] **T14 · Tipos de fila** (`features/*/types.ts`) y **api + hooks**: profile, foods (local + OFF + create), diary (CRUD), `useDebouncedValue`. _(R1.3, R3.2, R3.6, R4.1, R5.4, R5.6, R6.5)_
   ✔ Typecheck en verde; `useDebouncedValue` con test de 400 ms (temporizadores falsos).
 
 ## Bloque D · Componentes UI
