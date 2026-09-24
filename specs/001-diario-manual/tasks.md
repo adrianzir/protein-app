@@ -103,5 +103,5 @@
 | R4 | T1, T2, T10, T21 | R8 | T12, T15, T17, T24 |
 
 ## Riesgos de implementación
-- **Sin Docker en el entorno de Claude:** T1–T4 no se pueden ejecutar aquí; se revisa el SQL con cuidado y el usuario las valida con `supabase db push` en su proyecto.
+- **Supabase local no disponible en el entorno de Claude** (Docker sin daemon): T1–T4 se validan en un **Postgres 16 local** con un esquema `auth` simulado (`auth.uid()`, roles `authenticated`/`anon`). La validación final la hace el usuario con `supabase db push` en su proyecto.
 - **Sin dispositivos en el entorno de Claude:** T24 la ejecuta el usuario; Claude verifica que la app compile para Android e iOS y la prueba en web.
