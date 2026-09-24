@@ -1,0 +1,42 @@
+{
+  "count": 6,
+  "page": 1,
+  "page_count": 6,
+  "page_size": 20,
+  "products": [
+    {
+      "code": "7802800716500",
+      "product_name": "Drinkable yogurt",
+      "product_name_es": "Yogur batido frutilla",
+      "brands": "Soprole, Grupo Gloria",
+      "nutriments": { "energy-kcal_100g": 95, "proteins_100g": 3.2, "carbohydrates_100g": 15.1, "fat_100g": 2.5 }
+    },
+    {
+      "code": "8410000000001",
+      "product_name": "Yogur griego natural",
+      "brands": "",
+      "nutriments": { "energy-kcal_100g": "120.4", "proteins_100g": "6", "carbohydrates_100g": "4.1", "fat_100g": "9.64" }
+    },
+    {
+      "code": "0000000000003",
+      "product_name": "Sin grasa informada",
+      "nutriments": { "energy-kcal_100g": 50, "proteins_100g": 1, "carbohydrates_100g": 10 }
+    },
+    {
+      "code": "7802800716500",
+      "product_name_es": "Duplicado",
+      "nutriments": { "energy-kcal_100g": 1, "proteins_100g": 0, "carbohydrates_100g": 0, "fat_100g": 0 }
+    },
+    {
+      "code": "0000000000005",
+      "product_name": "   ",
+      "nutriments": { "energy-kcal_100g": 10, "proteins_100g": 0, "carbohydrates_100g": 2, "fat_100g": 0 }
+    },
+    {
+      "code": "0000000000006",
+      "product_name": "Datos imposibles",
+      "nutriments": { "energy-kcal_100g": 400, "proteins_100g": 60, "carbohydrates_100g": 60, "fat_100g": 1 }
+    }
+  ],
+  "skip": 0
+}

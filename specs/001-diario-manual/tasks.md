@@ -23,19 +23,19 @@
 
 ## Bloque B · Dominio (funciones puras + tests)
 
-- [ ] **T5 · `lib/text.ts`**: `normalizeSearch`. _(R3.2)_
+- [x] **T5 · `lib/text.ts`**: `normalizeSearch`. _(R3.2)_
   ✔ Tests: "Plátano" → "platano", espacios, mayúsculas.
-- [ ] **T6 · `lib/date.ts`**: `toLocalISODate`, `addDays`, `isFuture`, `formatDayLabel`. _(R5.5, R6.4, D4)_
+- [x] **T6 · `lib/date.ts`**: `toLocalISODate`, `addDays`, `isFuture`, `formatDayLabel`. _(R5.5, R6.4, D4)_
   ✔ Tests: cambio de mes y año, "Hoy" y "Ayer", 23:30 local no cambia de día.
-- [ ] **T7 · `features/profile/goals.ts`**: `ageOn`, `bmr`, `tdee`, `calculateTargets`, `isProfileComplete`. _(R1.4, R2.1, R2.2, R2.5)_
+- [x] **T7 · `features/profile/goals.ts`**: `ageOn`, `bmr`, `tdee`, `calculateTargets`, `isProfileComplete`. _(R1.4, R2.1, R2.2, R2.5)_
   ✔ Tests: ejemplo §3.1 (2759 / 128 / 77 / 389), mujer, 5 niveles de actividad, 3 objetivos, carbohidratos ≥ 0, cumpleaños el mismo día.
-- [ ] **T8 · `features/profile/validation.ts`**: `validateProfile`. _(R1.2)_
+- [x] **T8 · `features/profile/validation.ts`**: `validateProfile`. _(R1.2)_
   ✔ Tests en los bordes: 12/13/100/101 años, 99/100/250/251 cm, 29/30/300/301 kg.
-- [ ] **T9 · `features/diary/macros.ts`**: `macrosFor`, `sumMacros`, `groupByMeal`, `validateGrams`, lista `MEAL_TYPES` con etiquetas en español. _(R5.2, R5.3, R6.1, R6.3)_
+- [x] **T9 · `features/diary/macros.ts`**: `macrosFor`, `sumMacros`, `groupByMeal`, `validateGrams`, lista `MEAL_TYPES` con etiquetas en español. _(R5.2, R5.3, R6.1, R6.3)_
   ✔ Tests: 0 / 0.1 / 5000 / 5000.1 g; suma vacía = 0; orden de las comidas.
-- [ ] **T10 · `features/foods/validation.ts`**: `validateCustomFood` y `parseFoodParam`. _(R4.2, R5.1)_
+- [x] **T10 · `features/foods/validation.ts`**: `validateCustomFood` y `parseFoodParam`. _(R4.2, R5.1)_
   ✔ Tests: negativos, suma > 100, nombre vacío, JSON inválido.
-- [ ] **T11 · `features/foods/openFoodFacts.ts`**: `parseOffProducts` y `searchOff` (User-Agent, `AbortSignal`, tiempo máximo de 8 s). _(R3.3, R3.4, R3.5)_
+- [x] **T11 · `features/foods/openFoodFacts.ts`**: `parseOffProducts` y `searchOff` (User-Agent, `AbortSignal`, tiempo máximo de 8 s). _(R3.3, R3.4, R3.5)_
   ✔ Tests con un JSON de ejemplo: completos, incompletos, duplicados, `product_name_es` preferido.
 
 ## Bloque C · Infraestructura de app
@@ -104,4 +104,5 @@
 
 ## Riesgos de implementación
 - **Supabase local no disponible en el entorno de Claude** (Docker sin daemon): T1–T4 se validan en un **Postgres 16 local** con un esquema `auth` simulado (`auth.uid()`, roles `authenticated`/`anon`). La validación final la hace el usuario con `supabase db push` en su proyecto.
+- **Open Food Facts no accesible desde el entorno de Claude:** T11 se probó con un JSON de ejemplo con la estructura documentada de la API; la búsqueda real se verifica en M4 y M9.
 - **Sin dispositivos en el entorno de Claude:** T24 la ejecuta el usuario; Claude verifica que la app compile para Android e iOS y la prueba en web.
