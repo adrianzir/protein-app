@@ -9,3 +9,6 @@ export function validateCredentials(email: string, password: string): string | n
   }
   return null;
 }
+
+/** Resultado de validar un formulario: el valor limpio o errores por campo. */
+export type ValidationResult<T, E> = { ok: true; value: T } | { ok: false; errors: E };
