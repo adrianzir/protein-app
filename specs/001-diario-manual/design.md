@@ -40,7 +40,7 @@ Todas son compatibles con **Expo Go** en Android e iOS (R8.1).
 | Paquete | Uso | Tipo |
 |---|---|---|
 | `@tanstack/react-query` | Caché y sincronización de datos | JS puro |
-| `@expo/vector-icons` | Íconos de tabs y botones | Incluido en Expo Go |
+| `@expo/vector-icons` (+ `expo-font`, `expo-asset`) | Íconos de tabs y botones | Incluido en Expo Go |
 | `@react-native-community/datetimepicker` | Fecha de nacimiento | Incluido en Expo Go |
 
 Se instalan con `npx expo install`. Si no hay acceso a la API de Expo, se usa la versión de `bundledNativeModules.json`.
@@ -233,7 +233,9 @@ Los alimentos de Open Food Facts no existen en la base de datos, así que el ali
 | `Screen` | `SafeAreaView` + `KeyboardAvoidingView` (iOS: `padding`) + `ScrollView` con `keyboardShouldPersistTaps="handled"` (R8.3) |
 | `MacroProgress` | Etiqueta, `valor / meta` y barra. Si se excede la meta: color de alerta **y** texto "▲ +N" (R6.2) |
 | `ChipGroup<T>` | Selección única accesible (`accessibilityRole="radio"`) |
-| `NumberField` | `TextInput` con `keyboardType="decimal-pad"`, acepta coma o punto decimal y muestra el error bajo el campo |
+| `TextField` | Etiqueta + `TextInput` + unidad opcional + error bajo el campo (base de los formularios) |
+| `NumberField` | `TextField` con `keyboardType="decimal-pad"`; el texto se convierte con `parseDecimal` (`src/lib/format.ts`), que acepta coma o punto decimal |
+| `Button` | Primario / secundario / peligro, con estado de carga y área táctil ≥ 44 pt |
 | `DayNavigator` | ◀ etiqueta ▶ + "Ir a hoy" |
 | `MealSection` | Título, subtotal de kcal, lista de `LogRow` y botón "+" |
 | `FoodRow` / `LogRow` | Filas pulsables |

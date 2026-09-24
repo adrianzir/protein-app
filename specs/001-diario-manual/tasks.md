@@ -49,9 +49,9 @@
 
 ## Bloque D · Componentes UI
 
-- [ ] **T15 · `theme.ts`, `Screen`, `Banner`, `NumberField`, `ChipGroup`.** _(R8.3, R8.4)_
+- [x] **T15 · `theme.ts`, `Screen`, `Banner`, `NumberField`, `ChipGroup`.** _(R8.3, R8.4)_
   ✔ `NumberField` acepta "12,5" → 12.5 (test).
-- [ ] **T16 · `MacroProgress`, `DayNavigator`, `MealSection`, `FoodRow`, `LogRow`.** _(R6.1–R6.4)_
+- [x] **T16 · `MacroProgress`, `DayNavigator`, `MealSection`, `FoodRow`, `LogRow`.** _(R6.1–R6.4)_
   ✔ Test de componente: `MacroProgress` muestra "▲ +N" al superar la meta.
 
 ## Bloque E · Pantallas
