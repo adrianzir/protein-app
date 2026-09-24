@@ -30,3 +30,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
 export function useAuth() {
   return useContext(AuthContext);
 }
+
+/** Id del usuario con sesión; solo usar en pantallas de `(app)` (protegidas). */
+export function useUserId(): string {
+  const { session } = useAuth();
+  if (!session) throw new Error('Se requiere una sesión activa');
+  return session.user.id;
+}

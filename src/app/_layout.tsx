@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { ActivityIndicator, View } from 'react-native';
 
 import { AuthProvider, useAuth } from '@/providers/AuthProvider';
+import { QueryProvider } from '@/providers/QueryProvider';
 
 function RootNavigator() {
   const { session, loading } = useAuth();
@@ -30,8 +31,10 @@ function RootNavigator() {
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <RootNavigator />
-      <StatusBar style="auto" />
+      <QueryProvider>
+        <RootNavigator />
+        <StatusBar style="auto" />
+      </QueryProvider>
     </AuthProvider>
   );
 }
