@@ -40,7 +40,7 @@ Todas son compatibles con **Expo Go** en Android e iOS (R8.1).
 | Paquete | Uso | Tipo |
 |---|---|---|
 | `@tanstack/react-query` | Caché y sincronización de datos | JS puro |
-| `@expo/vector-icons` | Íconos de tabs y botones | Incluido en Expo Go |
+| `@expo/vector-icons` (+ `expo-font`, `expo-asset`) | Íconos de tabs y botones | Incluido en Expo Go |
 | `@react-native-community/datetimepicker` | Fecha de nacimiento | Incluido en Expo Go |
 
 Se instalan con `npx expo install`. Si no hay acceso a la API de Expo, se usa la versión de `bundledNativeModules.json`.
@@ -175,11 +175,14 @@ TMB 1780 → TDEE 2759 → **2759 kcal · 128 g proteína · 77 g grasa · 389 g
 | `useLocalFoodSearch(q)` | `['foods', 'local', q]` | `foods` `ilike search_name %q%`, límite 20 | — |
 | `useOffSearch(q)` | `['foods', 'off', q]` | Open Food Facts | — |
 | `useCreateFood()` | — | `insert foods` | `['foods','local']` |
-| `useDayLogs(date)` | `['logs', date]` | `food_logs` por `eaten_on`, orden `created_at` | — |
-| `useAddLog()` / `useUpdateLog()` / `useDeleteLog()` | — | `food_logs` | `['logs', date]` (R6.5) |
+| `useDayEntries(date)` | `['logs', date]` | `food_logs` por `eaten_on`, orden `created_at` | — |
+| `useEntry(id)` | `['logs', 'entry', id]` | `food_logs` por id (pantalla Editar) | — |
+| `useAddEntry()` / `useUpdateEntry()` / `useDeleteEntry()` | — | `food_logs` | `['logs', date]` (R6.5) |
 | `useDebouncedValue(v, 400)` | — | utilidad | — |
 
-- Un `QueryProvider` en `src/providers/` envuelve la app. Al cerrar sesión se ejecuta `queryClient.clear()` para que no quede información de otro usuario.
+- Un `QueryProvider` en `src/providers/` envuelve la app (dentro de `AuthProvider`). Cuando cambia el usuario (cerrar sesión o entrar con otra cuenta) se ejecuta `queryClient.clear()` para que no quede información de otro usuario. En móvil, volver a primer plano refresca los datos vencidos (`focusManager` + `AppState`).
+- `useUserId()` (en `AuthProvider`) entrega el id del usuario con sesión a las mutaciones.
+- Cada `api.ts` tiene funciones puras de mapeo fila ↔ dominio (`profileFromRow`, `foodFromRow`, `entryFromRow`, `entryToInsert`…) con tests. La búsqueda local aplica un `ILIKE` por palabra (todas deben aparecer) y escapa `%` y `_`.
 - Los tipos de fila se escriben a mano en `src/features/*/types.ts`. Cuando exista un proyecto Supabase vinculado se generarán con `supabase gen types`.
 
 ---
@@ -230,7 +233,9 @@ Los alimentos de Open Food Facts no existen en la base de datos, así que el ali
 | `Screen` | `SafeAreaView` + `KeyboardAvoidingView` (iOS: `padding`) + `ScrollView` con `keyboardShouldPersistTaps="handled"` (R8.3) |
 | `MacroProgress` | Etiqueta, `valor / meta` y barra. Si se excede la meta: color de alerta **y** texto "▲ +N" (R6.2) |
 | `ChipGroup<T>` | Selección única accesible (`accessibilityRole="radio"`) |
-| `NumberField` | `TextInput` con `keyboardType="decimal-pad"`, acepta coma o punto decimal y muestra el error bajo el campo |
+| `TextField` | Etiqueta + `TextInput` + unidad opcional + error bajo el campo (base de los formularios) |
+| `NumberField` | `TextField` con `keyboardType="decimal-pad"`; el texto se convierte con `parseDecimal` (`src/lib/format.ts`), que acepta coma o punto decimal |
+| `Button` | Primario / secundario / peligro, con estado de carga y área táctil ≥ 44 pt |
 | `DayNavigator` | ◀ etiqueta ▶ + "Ir a hoy" |
 | `MealSection` | Título, subtotal de kcal, lista de `LogRow` y botón "+" |
 | `FoodRow` / `LogRow` | Filas pulsables |
