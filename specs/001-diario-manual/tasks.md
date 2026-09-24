@@ -1,6 +1,6 @@
 # Spec 001 · Diario manual — Tareas
 
-**Estado:** Borrador
+**Estado:** Aprobado v2 (2026-09-24)
 **Requisitos:** [requirements.md](requirements.md) · **Diseño:** [design.md](design.md)
 
 **Convenciones**
@@ -12,13 +12,13 @@
 
 ## Bloque A · Base de datos
 
-- [ ] **T1 · Migración `diary`**: extensiones `unaccent` y `pg_trgm`; tablas `foods` y `food_logs` con sus `check`; trigger `search_name`; índices. _(R3.2, R4.2, R5.3, R5.4, R5.6)_
+- [x] **T1 · Migración `diary`**: extensiones `unaccent` y `pg_trgm`; tablas `foods` y `food_logs` con sus `check`; trigger `search_name`; índices. _(R3.2, R4.2, R5.3, R5.4, R5.6)_
   ✔ `supabase db reset` local aplica sin errores; insertar un registro con 150 g calcula `kcal = kcal_100g × 1.5`.
-- [ ] **T2 · Políticas RLS** para `foods` y `food_logs` según la tabla §2.2 del diseño. _(R4.3, R7.1, R7.2)_
+- [x] **T2 · Políticas RLS** para `foods` y `food_logs` según la tabla §2.2 del diseño. _(R4.3, R7.1, R7.2)_
   ✔ Incluido en la migración de T1; se verifica en T3.
-- [ ] **T3 · Test SQL de RLS** en `supabase/tests/rls.sql`: A no ve los registros ni los alimentos de B; nadie inserta en el catálogo. _(R7.1, R7.2)_
-  ✔ `supabase test db` en verde (o, si no hay Docker, revisión manual documentada).
-- [ ] **T4 · Catálogo base global**: migración `seed_catalog` con 80 o más alimentos genéricos (LatAm, España, EE. UU.) por 100 g, con `aliases` regionales y en inglés. _(R3.1, R3.7)_
+- [x] **T3 · Tests SQL** en `tests/db/` + `scripts/test-db.sh` (`npm run test:db`) + job de CI con Postgres 16: A no ve los registros ni los alimentos de B; nadie inserta en el catálogo; columnas generadas; constraints. _(R7.1, R7.2)_
+  ✔ `npm run test:db` en verde localmente y en CI.
+- [x] **T4 · Catálogo base global**: migración `seed_catalog` con 80 o más alimentos genéricos (LatAm, España, EE. UU.) por 100 g, con `aliases` regionales y en inglés. _(R3.1, R3.7)_
   ✔ `count(*)` ≥ 80; suma de macros ≤ 100 en todos; buscar "aguacate", "palta" y "avocado" devuelve el mismo alimento.
 
 ## Bloque B · Dominio (funciones puras + tests)

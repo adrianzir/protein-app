@@ -25,6 +25,7 @@ App móvil (iOS/Android) para registrar comidas y calcular calorías, proteína,
 | `npm run lint` | ESLint |
 | `npm run typecheck` | Chequeo de tipos |
 | `npm test` | Tests unitarios |
+| `npm run test:db` | Migraciones + tests SQL (RLS, catálogo) sobre Postgres 16; requiere `DATABASE_URL` |
 
 ## Estructura
 ```

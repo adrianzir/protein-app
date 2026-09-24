@@ -1,6 +1,6 @@
 # Spec 001 · Diario manual — Diseño
 
-**Estado:** Borrador v2 (catálogo global)
+**Estado:** Aprobado v2 (2026-09-24)
 **Requisitos:** [requirements.md](requirements.md) (aprobado)
 
 ---
@@ -63,6 +63,7 @@ create table public.foods (
   name          text not null check (length(trim(name)) between 1 and 120),
   brand         text check (length(brand) <= 80),
   aliases       text[] not null default '{}',   -- sinónimos regionales (R3.7)
+  slug          text unique,                  -- id estable del catálogo (permite actualizarlo con upsert)
   search_name   text not null,              -- minúsculas y sin tildes (trigger)
   kcal_100g     numeric(6,1) not null check (kcal_100g    >= 0 and kcal_100g <= 900),
   protein_100g  numeric(5,1) not null check (protein_100g >= 0),
@@ -70,7 +71,8 @@ create table public.foods (
   fat_100g      numeric(5,1) not null check (fat_100g     >= 0),
   created_at    timestamptz not null default now(),
   check (protein_100g + carbs_100g + fat_100g <= 100),
-  check ((source = 'catalog') = (owner_id is null))
+  check ((source = 'catalog') = (owner_id is null)),
+  check ((source = 'catalog') = (slug is not null))
 );
 create index foods_search_trgm on public.foods using gin (search_name extensions.gin_trgm_ops);
 
@@ -263,7 +265,7 @@ Los alimentos de Open Food Facts no existen en la base de datos, así que el ali
 | Unitario | `parseOffProducts` con JSON de ejemplo (productos completos, incompletos y duplicados) | Jest | R3.3, R3.4 |
 | Unitario | `normalizeSearch`, `date.ts`, `parseFoodParam` | Jest | R3.2, R5.5, R6.4 |
 | Componente | `MacroProgress` muestra "▲ +N" al exceder la meta | Jest + `@testing-library/react-native` | R6.2 |
-| Base de datos | Script SQL `supabase/tests/rls.sql`: usuario A no ve registros ni alimentos de B, y nadie inserta en el catálogo | Revisión manual o `supabase test db` | R7.1, R7.2 |
+| Base de datos | `tests/db/*.sql` (SQL plano con aserciones): RLS entre usuarios A/B, catálogo de solo lectura, columnas generadas, sinónimos. Se ejecuta con `npm run test:db` contra Postgres 16 + un *stub* de Supabase (`tests/db/supabase_stub.sql`), también en CI | psql | R3.7, R5.4, R7.1, R7.2 |
 | Manual | Checklist en **Android y iOS** (Expo Go): flujo completo, teclado, navegación por días, modo avión | Dispositivo real | R8.1, R8.3 |
 
 Dependencia de pruebas adicional: `@testing-library/react-native` (solo de desarrollo).

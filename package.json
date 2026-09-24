@@ -35,7 +35,8 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "test:db": "bash scripts/test-db.sh"
   },
   "private": true,
   "jest": {

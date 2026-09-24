@@ -1,6 +1,6 @@
 # Spec 001 · Diario manual — Requisitos
 
-**Estado:** Borrador v2 (cambio de alcance: catálogo global, 2026-09-24)
+**Estado:** Aprobado v2 (2026-09-24 · alcance global)
 **Fase del plan:** 1 (ver [PLAN.md](../../PLAN.md))
 **Plataformas:** Android e iOS
 
@@ -95,8 +95,5 @@ La Fase 0 dejó listos el inicio de sesión y la tabla `profiles`. Esta fase ent
 | Q2 | Edición manual de metas | No en F1; queda para F4 |
 | Q3 | Opciones de sexo | Se muestra como "sexo biológico (para el cálculo)": hombre / mujer |
 
-## Preguntas abiertas (v2)
-| # | Pregunta | Propuesta por defecto |
-|---|---|---|
-| Q4 | ¿Interfaz también en **inglés** para EE. UU. desde la F1? | No en F1: solo español, pero con textos centralizados para traducir en F4 |
-| Q5 | ¿Unidades **imperiales** (lb, ft/in, oz) para EE. UU.? | No en F1: solo métricas; imperiales en F4 junto con el inglés |
+| Q4 | Interfaz en inglés | No en F1: solo español, con textos centralizados para traducir en F4 |
+| Q5 | Unidades imperiales (lb, ft/in, oz) | No en F1: solo métricas; imperiales en F4 junto con el inglés |
