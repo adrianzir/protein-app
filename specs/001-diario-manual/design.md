@@ -1,6 +1,6 @@
 # Spec 001 · Diario manual — Diseño
 
-**Estado:** Aprobado (2026-09-24)
+**Estado:** Borrador v2 (catálogo global)
 **Requisitos:** [requirements.md](requirements.md) (aprobado)
 
 ---
@@ -62,6 +62,7 @@ create table public.foods (
   source        text not null check (source in ('catalog', 'custom')),
   name          text not null check (length(trim(name)) between 1 and 120),
   brand         text check (length(brand) <= 80),
+  aliases       text[] not null default '{}',   -- sinónimos regionales (R3.7)
   search_name   text not null,              -- minúsculas y sin tildes (trigger)
   kcal_100g     numeric(6,1) not null check (kcal_100g    >= 0 and kcal_100g <= 900),
   protein_100g  numeric(5,1) not null check (protein_100g >= 0),
@@ -78,7 +79,7 @@ create table public.food_logs (
   id              uuid primary key default gen_random_uuid(),
   user_id         uuid not null default auth.uid() references auth.users (id) on delete cascade,
   eaten_on        date not null,
-  meal_type       text not null check (meal_type in ('breakfast','lunch','once','dinner','snack')),
+  meal_type       text not null check (meal_type in ('breakfast','lunch','afternoon','dinner','snack')),
   food_id         uuid references public.foods (id) on delete set null,
   food_source     text not null check (food_source in ('catalog','custom','off')),
   external_id     text,                      -- código Open Food Facts
@@ -98,7 +99,7 @@ create table public.food_logs (
 create index food_logs_user_day on public.food_logs (user_id, eaten_on);
 ```
 
-- Un **trigger** `foods_set_search_name` calcula `search_name = lower(extensions.unaccent(name || ' ' || coalesce(brand,'')))` en cada insert y update. La búsqueda ignora mayúsculas y tildes (R3.2).
+- Un **trigger** `foods_set_search_name` calcula `search_name = lower(extensions.unaccent(name || ' ' || coalesce(brand,'') || ' ' || array_to_string(aliases, ' ')))` en cada insert y update. La búsqueda ignora mayúsculas y tildes (R3.2).
 - Los totales se calculan en columnas `generated`. Al editar los gramos se recalculan solos (R5.6) y la app no puede guardar valores inconsistentes.
 - Se guarda una copia de los valores por 100 g, no una referencia viva, así que editar o borrar el alimento no cambia el historial (R5.4).
 
@@ -113,7 +114,8 @@ create index food_logs_user_day on public.food_logs (user_id, eaten_on);
 Nadie puede escribir en el catálogo base (R7.2): no hay política que permita `owner_id is null`.
 
 ### 2.3 Catálogo base (R3.1)
-- Migración `…_seed_catalog.sql` con unos 35 alimentos comunes en Chile, con valores por 100 g basados en USDA FoodData Central y ajustados a nombres locales (pan marraqueta, palta, porotos, once…).
+- Migración `…_seed_catalog.sql` con **80 o más alimentos genéricos** (proteínas, cereales, legumbres, lácteos, frutas, verduras, grasas, preparados típicos como tortilla de maíz, arepa, pan de molde, tortilla española) con valores por 100 g de **USDA FoodData Central**.
+- Nombre principal en español neutro + `aliases` con variantes regionales (LatAm, España) y el nombre en inglés, para que funcione también en EE. UU.
 - Va en una migración, y no en `seed.sql`, para que llegue a producción con `supabase db push`.
 
 ### 2.4 Perfil

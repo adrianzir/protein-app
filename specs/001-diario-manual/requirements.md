@@ -1,6 +1,6 @@
 # Spec 001 · Diario manual — Requisitos
 
-**Estado:** Aprobado (2026-09-23)
+**Estado:** Borrador v2 (cambio de alcance: catálogo global, 2026-09-24)
 **Fase del plan:** 1 (ver [PLAN.md](../../PLAN.md))
 **Plataformas:** Android e iOS
 
@@ -16,7 +16,8 @@ La Fase 0 dejó listos el inicio de sesión y la tabla `profiles`. Esta fase ent
 - **Macros:** calorías (kcal), proteína, carbohidratos y grasas, en gramos.
 - **Meta diaria:** objetivo de kcal y macros del usuario para un día.
 - **Registro:** un alimento consumido, con su cantidad en gramos, fecha y tipo de comida.
-- **Tipo de comida:** desayuno, almuerzo, once/merienda, cena o snack.
+- **Tipo de comida:** desayuno, almuerzo, merienda/once, cena o snack.
+- **Mercados iniciales:** Latinoamérica, España y Estados Unidos (la app apunta a un alcance global).
 
 ---
 
@@ -40,7 +41,8 @@ La Fase 0 dejó listos el inicio de sesión y la tabla `profiles`. Esta fase ent
 ## R3 · Búsqueda de alimentos
 **Historia:** Como usuario, quiero buscar un alimento por nombre para registrarlo rápido.
 
-1. EL SISTEMA DEBERÁ incluir un catálogo base de al menos 30 alimentos comunes en Chile, con sus macros por 100 g.
+1. EL SISTEMA DEBERÁ incluir un catálogo base **global** de al menos 80 alimentos genéricos comunes en Latinoamérica, España y Estados Unidos, con sus macros por 100 g.
+7. Cada alimento del catálogo DEBERÁ tener sinónimos regionales (por ejemplo palta/aguacate, porotos/frijoles/judías/alubias, plátano/banana/banano, frutilla/fresa, choclo/elote/maíz) y la búsqueda DEBERÁ encontrarlo por cualquiera de ellos.
 2. CUANDO el usuario escriba 2 o más caracteres, EL SISTEMA DEBERÁ buscar, sin distinguir mayúsculas ni tildes, en el catálogo base, en los alimentos personalizados del usuario y en **Open Food Facts**.
 3. EL SISTEMA DEBERÁ mostrar los resultados locales primero y, a continuación, los de Open Food Facts; cada resultado indica nombre, marca (si existe) y kcal por 100 g.
 4. EL SISTEMA DEBERÁ descartar los resultados de Open Food Facts que no tengan kcal, proteína, carbohidratos y grasa por 100 g.
@@ -89,6 +91,12 @@ La Fase 0 dejó listos el inicio de sesión y la tabla `profiles`. Esta fase ent
 ## Decisiones (preguntas resueltas)
 | # | Pregunta | Decisión |
 |---|---|---|
-| Q1 | Tipos de comida | Desayuno, almuerzo, **once**, cena y snack |
+| Q1 | Tipos de comida | Desayuno, almuerzo, **merienda/once**, cena y snack (etiqueta neutra para todos los mercados) |
 | Q2 | Edición manual de metas | No en F1; queda para F4 |
 | Q3 | Opciones de sexo | Se muestra como "sexo biológico (para el cálculo)": hombre / mujer |
+
+## Preguntas abiertas (v2)
+| # | Pregunta | Propuesta por defecto |
+|---|---|---|
+| Q4 | ¿Interfaz también en **inglés** para EE. UU. desde la F1? | No en F1: solo español, pero con textos centralizados para traducir en F4 |
+| Q5 | ¿Unidades **imperiales** (lb, ft/in, oz) para EE. UU.? | No en F1: solo métricas; imperiales en F4 junto con el inglés |

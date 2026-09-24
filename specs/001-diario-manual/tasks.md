@@ -18,8 +18,8 @@
   ✔ Incluido en la migración de T1; se verifica en T3.
 - [ ] **T3 · Test SQL de RLS** en `supabase/tests/rls.sql`: A no ve los registros ni los alimentos de B; nadie inserta en el catálogo. _(R7.1, R7.2)_
   ✔ `supabase test db` en verde (o, si no hay Docker, revisión manual documentada).
-- [ ] **T4 · Catálogo base**: migración `seed_catalog` con 35 o más alimentos chilenos por 100 g. _(R3.1)_
-  ✔ `select count(*) from foods where source = 'catalog'` ≥ 35; la suma de macros ≤ 100 en todos.
+- [ ] **T4 · Catálogo base global**: migración `seed_catalog` con 80 o más alimentos genéricos (LatAm, España, EE. UU.) por 100 g, con `aliases` regionales y en inglés. _(R3.1, R3.7)_
+  ✔ `count(*)` ≥ 80; suma de macros ≤ 100 en todos; buscar "aguacate", "palta" y "avocado" devuelve el mismo alimento.
 
 ## Bloque B · Dominio (funciones puras + tests)
 

@@ -47,7 +47,7 @@ Precisión esperada: identificación buena; **porciones ±20–30 %**. Por eso l
 ## 7. Costos y riesgos
 - **Costo por foto** de IA (centavos de USD): limitar análisis diarios en plan gratuito.
 - **Privacidad**: fotos y datos de salud → política de privacidad, consentimiento, borrado de cuenta.
-- **Alimentos locales** (Chile/LatAm) poco cubiertos en USDA → tabla propia complementaria.
+- **Alcance global** (inicio: LatAm, España y EE. UU.): catálogo con sinónimos regionales; inglés y unidades imperiales en fases siguientes.
 - **Aviso legal**: no es consejo médico.
 
 ## 8. Metodología
