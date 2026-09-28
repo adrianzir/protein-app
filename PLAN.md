@@ -39,7 +39,7 @@ Precisión esperada: identificación buena; **porciones ±20–30 %**. Por eso l
 |---|---|---|
 | 0. Setup ✅ | 1 sem | Repo Expo, Supabase, auth, CI |
 | 1. Diario manual 🟡 ([spec](specs/001-diario-manual/)) | 2 sem | Perfil, metas, búsqueda de alimentos, registro, resumen diario |
-| 2. Código de barras | 1 sem | Escaneo con Open Food Facts |
+| 2. Código de barras ([spec](specs/002-codigo-barras/)) | 1 sem | Escaneo con Open Food Facts |
 | 3. Foto con IA | 2–3 sem | Captura, análisis, pantalla de confirmación |
 | 4. Historial y gráficos | 1–2 sem | Tendencias semanales, favoritos, comidas recientes |
 | 5. Beta y publicación | 2 sem | TestFlight / Play interno, ajustes, stores |
