@@ -1,6 +1,6 @@
 # Spec 001 · Diario manual — Tareas
 
-**Estado:** Aprobado v2 (2026-09-24)
+**Estado:** Implementado (2026-09-28) · pendiente verificación en dispositivos (T24)
 **Requisitos:** [requirements.md](requirements.md) · **Diseño:** [design.md](design.md)
 
 **Convenciones**
@@ -75,7 +75,7 @@
 
 - [ ] **T24 · Verificación en dispositivos**: checklist manual completo en **Android e iOS** con Expo Go (flujo completo, teclado, días, modo avión). _(R8.1, R8.3)_
   ✔ Checklist marcado en la sección siguiente.
-- [ ] **T25 · Documentación**: README (nuevas migraciones, cómo probar), estado de la spec → Implementado, PLAN (Fase 1 ✅). _(—)_
+- [x] **T25 · Documentación**: README (nuevas migraciones, cómo probar), estado de la spec → Implementado, PLAN (Fase 1 ✅). _(—)_
 
 ---
 

@@ -1,6 +1,6 @@
 # Spec 001 · Diario manual — Diseño
 
-**Estado:** Aprobado v2 (2026-09-24)
+**Estado:** Implementado (2026-09-28) · pendiente verificación en dispositivos (T24)
 **Requisitos:** [requirements.md](requirements.md) (aprobado)
 
 ---
