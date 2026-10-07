@@ -55,6 +55,6 @@ Se trabaja con **Spec-Driven Development**: cada fase tiene su spec en `specs/` 
 
 ## 9. Próximos pasos
 1. Crear el proyecto Supabase real, aplicar migraciones y ejecutar los checklists en dispositivos (Spec 001 T24 y Spec 002 T14) → Fases 1 y 2 ✅.
-2. Prototipo rápido del análisis de foto para medir precisión con platos reales (antes de la spec de la Fase 3).
+2. Medir la precisión del análisis de foto con platos reales usando el [prototipo](prototypes/photo-ai/) (antes de la spec de la Fase 3).
 
 🟡 = implementada, pendiente de verificación en dispositivos.
