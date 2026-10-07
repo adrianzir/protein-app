@@ -26,7 +26,15 @@
     },
     "scheme": "proteinapp",
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Usamos la cámara solo para leer códigos de barras de los envases.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
