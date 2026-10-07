@@ -20,6 +20,8 @@ export type FoodRef = {
   name: string;
   brand?: string | null;
   per100g: NutrientsPer100g;
+  /** Porción del envase en gramos, si el producto la informa (Spec 002 · R3.3). */
+  servingGrams?: number;
 };
 
 export const FOOD_LIMITS = {
@@ -28,3 +30,6 @@ export const FOOD_LIMITS = {
   kcalMax: 900,
   macrosSumMax: 100,
 } as const;
+
+/** Porción del envase válida, en gramos (Spec 002 · R3.3). */
+export const SERVING_LIMITS = { min: 1, max: 1000 } as const;

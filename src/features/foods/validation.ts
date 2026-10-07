@@ -1,6 +1,6 @@
 import type { ValidationResult } from '@/lib/validation';
 
-import { FOOD_LIMITS, FOOD_SOURCES, type FoodRef, type NutrientsPer100g } from './types';
+import { FOOD_LIMITS, FOOD_SOURCES, SERVING_LIMITS, type FoodRef, type NutrientsPer100g } from './types';
 
 // Spec 001 · R4.2, R5.1
 
@@ -95,6 +95,16 @@ export function parseFoodParam(raw: string | string[] | undefined): FoodRef | nu
   const per100g = f.per100g as Record<string, unknown>;
   if (Object.keys(nutrientErrors(per100g)).length > 0) return null;
 
+  // Porción del envase (Spec 002 · R3.3): opcional; si no es válida se descarta y el alimento sirve igual.
+  const serving = f.servingGrams;
+  const servingGrams =
+    typeof serving === 'number' &&
+    Number.isFinite(serving) &&
+    serving >= SERVING_LIMITS.min &&
+    serving <= SERVING_LIMITS.max
+      ? serving
+      : undefined;
+
   return {
     source: f.source as FoodRef['source'],
     id: f.id as string | undefined,
@@ -107,5 +117,6 @@ export function parseFoodParam(raw: string | string[] | undefined): FoodRef | nu
       carbs: per100g.carbs as number,
       fat: per100g.fat as number,
     },
+    ...(servingGrams ? { servingGrams } : {}),
   };
 }

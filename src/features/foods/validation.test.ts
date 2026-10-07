@@ -76,4 +76,14 @@ describe('parseFoodParam', () => {
     expect(parseFoodParam(JSON.stringify({ ...food, per100g: { ...food.per100g, kcal: '95' } }))).toBeNull();
     expect(parseFoodParam(JSON.stringify({ ...food, per100g: { ...food.per100g, fat: 90 } }))).toBeNull();
   });
+
+  it('conserva una porción válida y descarta una inválida (Spec 002 · R3.3)', () => {
+    expect(parseFoodParam(encodeFoodParam({ ...food, servingGrams: 30 }))).toEqual({ ...food, servingGrams: 30 });
+    for (const servingGrams of [0, 1001, Number.NaN]) {
+      const parsed = parseFoodParam(JSON.stringify({ ...food, servingGrams }));
+      expect(parsed).not.toBeNull();
+      expect(parsed?.servingGrams).toBeUndefined();
+    }
+    expect(parseFoodParam(JSON.stringify({ ...food, servingGrams: '30' }))?.servingGrams).toBeUndefined();
+  });
 });
