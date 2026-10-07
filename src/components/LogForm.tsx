@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import type { FoodRef } from '@/features/foods/types';
 import { macrosFor, MEAL_LABELS, MEAL_TYPES, type MealType } from '@/features/diary/macros';
-import { formatInt } from '@/lib/format';
+import { formatGrams, formatInt, parseDecimal } from '@/lib/format';
 
 import { ChipGroup, toOptions } from './ChipGroup';
 import { NumberField } from './NumberField';
@@ -33,6 +33,15 @@ export function LogForm({ food, gramsText, onGramsText, grams, mealType, onMealT
       </View>
 
       <NumberField label="Cantidad" unit="g" value={gramsText} onChangeText={onGramsText} error={gramsError} selectTextOnFocus />
+
+      {food.servingGrams ? (
+        <ChipGroup
+          label="Porción del envase"
+          options={[{ value: 'serving', label: `1 porción · ${formatGrams(food.servingGrams)} g` }]}
+          value={parseDecimal(gramsText) === food.servingGrams ? 'serving' : null}
+          onChange={() => onGramsText(formatGrams(food.servingGrams!))}
+        />
+      ) : null}
 
       <ChipGroup label="Comida" options={toOptions(MEAL_TYPES, MEAL_LABELS)} value={mealType} onChange={onMealType} />
 
