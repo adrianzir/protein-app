@@ -19,15 +19,15 @@
 
 ## Bloque B · Dominio (funciones puras + tests)
 
-- [ ] **T3 · `features/barcode/gtin.ts`**: `isValidGtin`, `expandUpcE`, `normalizeGtin`. _(R1.2, R1.5, R5.2, R7.3)_
+- [x] **T3 · `features/barcode/gtin.ts`**: `isValidGtin`, `expandUpcE`, `normalizeGtin`. _(R1.2, R1.5, R5.2, R7.3)_
   ✔ Tests: EAN-13/EAN-8/UPC-A válidos e inválidos, las 4 reglas de UPC-E, UPC-A y EAN-13 equivalentes dan el mismo GTIN, letras y largos inválidos.
-- [ ] **T4 · OFF por código**: extraer `fetchOff()` y `readNutriments()` de `openFoodFacts.ts`; agregar `fetchOffProduct(gtin)` y `parseOffProduct(json, gtin)` con porción. _(R3.2, R3.3, R4.1, R6.2, R7.3)_
+- [x] **T4 · OFF por código**: extraer `fetchOff()` y `readNutriments()` de `openFoodFacts.ts`; agregar `fetchOffProduct(gtin)` y `parseOffProduct(json, gtin)` con porción. _(R3.2, R3.3, R4.1, R6.2, R7.3)_
   ✔ Tests con JSON de ejemplo: found, incompleto, `status: 0`, HTTP 404 → not_found, 429/5xx/tiempo agotado → `OffError`, porción en g / ml / fuera de rango. Los tests existentes de búsqueda siguen en verde.
-- [ ] **T5 · `FoodRef.servingGrams`** opcional + validación en `parseFoodParam` (1–1000). _(R3.3)_
-  ✔ Tests de ida y vuelta e inválidos.
-- [ ] **T6 · `features/barcode/lookup.ts`**: `lookupBarcode(gtin, deps)` (propio → OFF). _(R3.1, R6.1)_
+- [x] **T5 · `FoodRef.servingGrams`** opcional + validación en `parseFoodParam` (1–1000). _(R3.3)_
+  ✔ Tests de ida y vuelta; una porción inválida se descarta sin invalidar el alimento.
+- [x] **T6 · `features/barcode/lookup.ts`**: `lookupBarcode(gtin, deps)` (propio → OFF). _(R3.1, R6.1)_
   ✔ Tests con dependencias simuladas: propio encontrado no llama a OFF; error de Supabase sigue con OFF; 404 → not_found; error de red se propaga.
-- [ ] **T7 · `features/barcode/scanReducer.ts`**: estados y transiciones de la §6.1 del diseño. _(R1.3, R2, R3.4, R5, R6.1, R7.2)_
+- [x] **T7 · `features/barcode/scanReducer.ts`**: estados y transiciones de la §6.1 del diseño. _(R1.3, R2, R3.4, R5, R6.1, R7.2)_
   ✔ Tests de cada transición, incluidos "ignora segundo código en `looking_up`" y "web inicia en `manual`".
 
 ## Bloque C · Datos y dependencias

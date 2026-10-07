@@ -148,7 +148,7 @@ permission ──(concedido)──▶ scanning ──(código válido)──▶ 
 - **Found:** `router.replace('/log/new', { date, meal, food })`. El escáner se reemplaza para que "volver" lleve a Buscar.
 
 ### 6.2 Registrar con porción (R3.3)
-- `FoodRef` suma un campo opcional `servingGrams?: number`, validado en `parseFoodParam` (1–1000).
+- `FoodRef` suma un campo opcional `servingGrams?: number`, validado en `parseFoodParam` (1–1000). Si no es válido se **descarta** (el alimento se puede registrar igual), en vez de rechazar el alimento completo.
 - `LogForm` muestra un `ChipGroup` de una opción, "1 porción · 30 g", que al tocarlo pone 30 en el campo de gramos. El valor inicial sigue siendo 100.
 
 ---
