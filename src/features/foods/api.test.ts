@@ -30,6 +30,7 @@ describe('foodFromRow', () => {
       name: 'Palta',
       brand: null,
       aliases: ['aguacate'],
+      barcode: null,
       kcal_100g: '160' as unknown as number,
       protein_100g: 2,
       carbs_100g: 8.5,

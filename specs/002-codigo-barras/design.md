@@ -106,7 +106,7 @@ create unique index foods_owner_barcode
 | Hook | Query key | Comportamiento |
 |---|---|---|
 | `useBarcodeLookup(gtin)` | `['barcode', gtin]` | 1) alimento propio; 2) si no hay, OFF. `staleTime: Infinity` y `gcTime` de 30 min: un código ya resuelto no se vuelve a consultar en la sesión (R3.5). `retry: false`. `enabled` solo con un GTIN válido |
-| `useCreateFood()` | — | Se amplía con `barcode` opcional. Al guardar, además de invalidar la búsqueda local, invalida `['barcode', gtin]` |
+| `useCreateFood()` | — | Recibe `{ ...CustomFoodInput, barcode? }`. Al guardar, además de invalidar la búsqueda local, invalida `['barcode', gtin]` |
 
 La función de orquestación `lookupBarcode(gtin, deps)` es pura respecto de sus dependencias (`findOwn`, `fetchOff`). Se testea con dependencias simuladas.
 

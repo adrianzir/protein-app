@@ -32,9 +32,9 @@
 
 ## Bloque C · Datos y dependencias
 
-- [ ] **T8 · Dependencias**: `expo-camera` ~57.0.5, `expo-haptics` ~57.0.3; plugin `expo-camera` en `app.json` con el texto del permiso. _(R2.1, R7.1)_
+- [x] **T8 · Dependencias**: `expo-camera` ~57.0.5, `expo-haptics` ~57.0.3; plugin `expo-camera` en `app.json` con el texto del permiso. _(R2.1, R7.1)_
   ✔ `expo export` para iOS y Android compila.
-- [ ] **T9 · API y hooks**: `findOwnFoodByBarcode`, `createCustomFood` con `barcode` (si hay duplicado, usa el existente), `useBarcodeLookup` (caché de sesión) e invalidación al crear. _(R3.1, R3.5, R4.2, R4.3)_
+- [x] **T9 · API y hooks**: `findOwnFoodByBarcode`, `createCustomFood` con `barcode` (si hay duplicado, usa el existente), `useBarcodeLookup` (caché de sesión) e invalidación al crear. _(R3.1, R3.5, R4.2, R4.3)_
   ✔ Tests de mapeo y del manejo del duplicado (`23505`).
 
 ## Bloque D · Pantallas
