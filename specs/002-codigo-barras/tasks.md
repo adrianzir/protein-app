@@ -39,13 +39,13 @@
 
 ## Bloque D · Pantallas
 
-- [ ] **T10 · Botón "Escanear código"** en Buscar → `/scan?date&meal`. _(R1.1)_
+- [x] **T10 · Botón "Escanear código"** en Buscar → `/scan?date&meal`. _(R1.1)_
   ✔ Prueba web: el botón navega al escáner conservando el día y la comida.
-- [ ] **T11 · Pantalla Escáner** (`scan.tsx`): permiso, cámara con marco y linterna, vibración, búsqueda, estados `missing` y `error` con sus acciones, ingreso manual; solo manual en web. _(R1–R7)_
+- [x] **T11 · Pantalla Escáner** (`scan.tsx`): permiso, cámara con marco y linterna, vibración, búsqueda, estados `missing` y `error` con sus acciones, ingreso manual; solo manual en web. _(R1–R7)_
   ✔ Prueba web de extremo a extremo con OFF simulado: código manual válido → Registrar; inválido → error en línea; 404 → "Crear alimento"; 503 → Reintentar.
-- [ ] **T12 · Nuevo alimento precargado** desde el escáner (código, nombre, marca, valores disponibles) y guardado con `barcode`. _(R4.1, R4.2)_
+- [x] **T12 · Nuevo alimento precargado** desde el escáner (código, nombre, marca, valores disponibles) y guardado con `barcode`. _(R4.1, R4.2)_
   ✔ Prueba web: crear desde `missing` → Registrar; volver a buscar el mismo código encuentra el alimento propio.
-- [ ] **T13 · Porción en Registrar**: botón "1 porción · N g" en `LogForm`. _(R3.3)_
+- [x] **T13 · Porción en Registrar**: botón "1 porción · N g" en `LogForm`. _(R3.3)_
   ✔ Test de componente: el botón aparece solo con `servingGrams` y pone ese valor en gramos.
 
 ## Bloque E · Cierre
@@ -68,6 +68,9 @@
 | B7 | Negar permiso → Abrir ajustes / Ingresar a mano | ☐ | ☐ |
 | B8 | Modo avión al escanear → error con Reintentar | ☐ | ☐ |
 | B9 | Mismo código dos veces seguidas: un solo registro de lectura | ☐ | ☐ |
+
+## Verificación automática en web (bloque D)
+Prueba de extremo a extremo con Playwright sobre la versión web (ingreso manual; Supabase y Open Food Facts simulados), 10 pasos en verde: Buscar → Escanear abre el ingreso manual sin cámara · código con verificador inválido → error en línea · código válido → Registrar con "1 porción · 155 g" (147 kcal) → Hoy actualizado · el mismo código no vuelve a consultar OFF · código inexistente → Crear alimento con el código → guardado con `barcode` → al escanearlo de nuevo se encuentra el alimento propio sin consultar OFF · OFF 503 → error con Reintentar / Ingresar a mano / Buscar por nombre → Reintentar cuando OFF vuelve → Registrar. **La cámara real solo se prueba en T14.**
 
 ## Trazabilidad requisitos → tareas
 | Req. | Tareas |

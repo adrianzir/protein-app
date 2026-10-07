@@ -58,6 +58,14 @@ describe('lectura de códigos', () => {
     });
   });
 
+  it('USE_CAMERA desde manual vuelve al paso de permiso', () => {
+    expect(scanReducer(initScanState({ isWeb: true }), { type: 'USE_CAMERA' })).toEqual({
+      status: 'permission',
+      mode: 'camera',
+    });
+    expect(scanReducer(scanning, { type: 'USE_CAMERA' })).toBe(scanning);
+  });
+
   it('GO_MANUAL desde escaneo, permiso negado o error', () => {
     expect(scanReducer(scanning, { type: 'GO_MANUAL' }).status).toBe('manual');
     expect(scanReducer({ status: 'denied', mode: 'camera' }, { type: 'GO_MANUAL' }).status).toBe('manual');

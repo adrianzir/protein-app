@@ -25,6 +25,7 @@ export type ScanEvent =
   | { type: 'CODE_SCANNED'; data: string; barcodeType?: string }
   | { type: 'MANUAL_SUBMIT'; text: string }
   | { type: 'GO_MANUAL' }
+  | { type: 'USE_CAMERA' }
   | { type: 'LOOKUP_DONE'; gtin: string; result: BarcodeLookupResult }
   | { type: 'LOOKUP_FAILED'; gtin: string; message: string }
   | { type: 'CANCEL' }
@@ -75,6 +76,10 @@ export function scanReducer(state: ScanState, event: ScanEvent): ScanState {
 
     case 'GO_MANUAL':
       return state.status === 'looking_up' || state.status === 'found' ? state : MANUAL;
+
+    case 'USE_CAMERA':
+      // Vuelve a pedir/usar la cámara; la pantalla avanza a `scanning` si el permiso ya está concedido.
+      return state.status === 'manual' ? { status: 'permission', mode: 'camera' } : state;
 
     case 'LOOKUP_DONE': {
       if (state.status !== 'looking_up' || state.gtin !== event.gtin) return state; // respuesta vieja

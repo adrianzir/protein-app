@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useHeaderHeight } from 'expo-router/react-navigation';
 import { useState } from 'react';
@@ -44,6 +45,15 @@ export default function FoodSearchScreen() {
         returnKeyType="search"
         clearButtonMode="while-editing"
       />
+
+      <Pressable
+        onPress={() => router.push({ pathname: '/scan', params: { date, meal } })}
+        accessibilityRole="button"
+        style={styles.scanButton}
+      >
+        <Ionicons name="barcode-outline" size={22} color={colors.primary} />
+        <Text style={styles.link}>Escanear código</Text>
+      </Pressable>
 
       {!ready ? <Text style={styles.hint}>Escribe al menos {MIN_QUERY_LENGTH} letras.</Text> : null}
 
@@ -97,5 +107,6 @@ const styles = StyleSheet.create({
   sectionHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   sectionTitle: { fontSize: font.body, fontWeight: '700', color: colors.text },
   createLink: { paddingVertical: spacing.md, alignItems: 'center' },
+  scanButton: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, minHeight: 44 },
   link: { color: colors.primary, fontWeight: '600', fontSize: font.body },
 });

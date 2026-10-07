@@ -140,7 +140,7 @@ permission ──(concedido)──▶ scanning ──(código válido)──▶ 
 | `looking_up` | Indicador "Buscando 7802…" + "Cancelar" (vuelve a `scanning`) | R3.4 |
 | `missing` | "No encontramos este producto" o "Faltan datos nutricionales" + **Crear alimento** (→ `food-new` precargado) + **Volver a escanear** | R4.1 |
 | `error` | Mensaje + **Reintentar** · **Ingresar a mano** · **Buscar por nombre** (vuelve a Buscar). El código se conserva | R6.1 |
-| `manual` | `NumberField` de código con validación en línea + "Buscar" | R5 |
+| `manual` | `NumberField` de código con validación en línea + "Buscar" + "Usar la cámara" (evento `USE_CAMERA`, solo en móvil) | R5 |
 
 - **Una sola lectura (R1.3):** `onBarcodeScanned` se pasa como `undefined` fuera del estado `scanning`, y además un `ref` ignora eventos repetidos del mismo frame. Al leer un código válido: `Haptics.notificationAsync(Success)`.
 - **Códigos inválidos (R1.5):** se ignoran sin cambiar de estado.

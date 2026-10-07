@@ -7,6 +7,7 @@ export default function AppLayout() {
     <Stack screenOptions={{ headerTintColor: colors.primary, headerBackButtonDisplayMode: 'minimal' }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="food-search" options={{ title: 'Buscar alimento', presentation: 'modal' }} />
+      <Stack.Screen name="scan" options={{ title: 'Escanear código', presentation: 'modal' }} />
       <Stack.Screen name="food-new" options={{ title: 'Nuevo alimento', presentation: 'modal' }} />
       <Stack.Screen name="log/new" options={{ title: 'Registrar', presentation: 'modal' }} />
       <Stack.Screen name="log/[id]" options={{ title: 'Editar registro', presentation: 'modal' }} />
