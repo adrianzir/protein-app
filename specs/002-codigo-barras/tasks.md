@@ -1,6 +1,6 @@
 # Spec 002 · Código de barras — Tareas
 
-**Estado:** Aprobado (2026-10-07)
+**Estado:** Implementado (2026-10-07) · pendiente verificación en dispositivos (T14)
 **Requisitos:** [requirements.md](requirements.md) · **Diseño:** [design.md](design.md)
 
 **Convenciones** (iguales a la Spec 001)
@@ -52,7 +52,7 @@
 
 - [ ] **T14 · Verificación en dispositivos**: checklist manual en **Android e iOS** con Expo Go. _(R1, R2, R4, R6, R7.1)_
   ✔ Checklist marcado (sección siguiente). **Lo hace el usuario.**
-- [ ] **T15 · Documentación**: README (escaneo y migración nueva), spec → Implementado, PLAN.
+- [x] **T15 · Documentación**: README (escaneo y migración nueva), spec → Implementado, PLAN.
 
 ---
 

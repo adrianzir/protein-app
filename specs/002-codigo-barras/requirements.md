@@ -1,6 +1,6 @@
 # Spec 002 · Código de barras — Requisitos
 
-**Estado:** Aprobado (2026-10-07)
+**Estado:** Implementado (2026-10-07) · pendiente verificación en dispositivos (T14)
 **Fase del plan:** 2 (ver [PLAN.md](../../PLAN.md))
 **Depende de:** [Spec 001 · Diario manual](../001-diario-manual/requirements.md) (búsqueda, registro y alimentos personalizados)
 **Plataformas:** Android e iOS (web: solo ingreso manual del código)

@@ -2,7 +2,7 @@
 
 App móvil (iOS/Android) para registrar comidas y calcular calorías, proteína, carbohidratos y grasas, con reconocimiento por foto (Fase 3). Plan completo en [PLAN.md](PLAN.md).
 
-**Estado:** Fase 1 (diario manual) implementada; falta la verificación en dispositivos. Se trabaja con Spec-Driven Development: ver [AGENTS.md](AGENTS.md) y [`specs/`](specs/).
+**Estado:** Fases 1 (diario manual) y 2 (código de barras) implementadas; falta la verificación en dispositivos. Se trabaja con Spec-Driven Development: ver [AGENTS.md](AGENTS.md) y [`specs/`](specs/).
 
 ## Funcionalidades (Fase 1)
 - Registro e inicio de sesión con correo.
@@ -10,6 +10,12 @@ App móvil (iOS/Android) para registrar comidas y calcular calorías, proteína,
 - **Búsqueda de alimentos**: catálogo global de 99 alimentos con sinónimos regionales (palta/aguacate/avocado), alimentos propios y [Open Food Facts](https://world.openfoodfacts.org).
 - **Registro por gramos** con cálculo de macros al instante; editar y eliminar.
 - **Resumen "Hoy"**: calorías y macros vs. metas, por comida, navegando entre días.
+
+## Funcionalidades (Fase 2)
+- **Escanear el código de barras** de un envase (EAN-13, EAN-8, UPC-A, UPC-E) desde Buscar: busca primero en tus alimentos y luego en Open Food Facts.
+- **Porción del envase** como acceso rápido al registrar ("1 porción · 30 g").
+- **Producto no encontrado o incompleto**: se crea como alimento propio con el código, y el próximo escaneo lo encuentra.
+- **Ingreso manual del código** (sin cámara, sin permiso o en web). Las imágenes de la cámara no se guardan ni se envían.
 
 ## Stack
 - **Expo SDK 57** + React Native + TypeScript + Expo Router (`src/app/`)
@@ -50,7 +56,7 @@ App móvil (iOS/Android) para registrar comidas y calcular calorías, proteína,
 | Unitario y componentes | `npm test` | Metas, macros, validaciones, fechas, Open Food Facts, mapeos de datos, componentes |
 | Base de datos | `DATABASE_URL=postgres://postgres@localhost:5432/postgres npm run test:db` | Permisos entre usuarios, catálogo de solo lectura, restricciones, sinónimos |
 | CI | Automático en cada PR y en `main` | Revisión de código, chequeo de tipos, tests de la app y de la base de datos |
-| Dispositivos | Checklist M1–M11 en [`specs/001-diario-manual/tasks.md`](specs/001-diario-manual/tasks.md) | Flujo completo en Android e iOS con Expo Go y un proyecto Supabase real |
+| Dispositivos | Checklists M1–M11 ([spec 001](specs/001-diario-manual/tasks.md)) y B1–B9 ([spec 002](specs/002-codigo-barras/tasks.md)) | Flujo completo y escaneo real en Android e iOS con Expo Go y un proyecto Supabase real |
 
 ## Estructura
 ```
@@ -60,7 +66,8 @@ src/
     (app)/        # pantallas privadas (con sesión)
       (tabs)/     # Hoy y Perfil
       log/        # registrar y editar consumo
-  features/       # lógica por dominio: profile, foods, diary (api, hooks, cálculos + tests)
+      scan.tsx    # escáner de códigos de barras
+  features/       # lógica por dominio: profile, foods, diary, barcode (api, hooks, cálculos + tests)
   components/     # componentes de UI reutilizables
   lib/            # cliente Supabase, env, fechas, formato, utilidades
   providers/      # AuthProvider (sesión) y QueryProvider (datos)
