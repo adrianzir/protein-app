@@ -1,6 +1,6 @@
 # Spec 002 · Código de barras — Requisitos
 
-**Estado:** Borrador
+**Estado:** Aprobado (2026-10-07)
 **Fase del plan:** 2 (ver [PLAN.md](../../PLAN.md))
 **Depende de:** [Spec 001 · Diario manual](../001-diario-manual/requirements.md) (búsqueda, registro y alimentos personalizados)
 **Plataformas:** Android e iOS (web: solo ingreso manual del código)
@@ -64,9 +64,9 @@ Buscar productos envasados por nombre es lento y ambiguo: hay muchas marcas y va
 
 ---
 
-## Preguntas abiertas
-| # | Pregunta | Propuesta por defecto |
+## Decisiones (preguntas resueltas)
+| # | Pregunta | Decisión |
 |---|---|---|
-| Q1 | ¿Dónde va el botón "Escanear"? | En la pantalla **Buscar**, junto al campo de búsqueda. Así hereda el día y la comida y no agrega botones en "Hoy" |
-| Q2 | ¿Ofrecer la porción del envase como acceso rápido (R3.3)? | Sí, como botón; 100 g sigue siendo el valor inicial |
-| Q3 | ¿Guardar en la base los productos de Open Food Facts escaneados, para que otros usuarios los encuentren sin consultar OFF? | No en F2: la caché es solo local de la sesión. Se evalúa en F4 si el uso de OFF crece |
+| Q1 | Ubicación del botón "Escanear" | En la pantalla **Buscar**, junto al campo de búsqueda |
+| Q2 | Porción del envase como acceso rápido | Sí, como botón; 100 g sigue siendo el valor inicial |
+| Q3 | Guardar productos de OFF escaneados en la base | No en F2: solo caché local de la sesión; se evalúa en F4 |
