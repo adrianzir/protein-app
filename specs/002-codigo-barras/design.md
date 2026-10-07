@@ -1,6 +1,6 @@
 # Spec 002 · Código de barras — Diseño
 
-**Estado:** Borrador
+**Estado:** Aprobado (2026-10-07)
 **Requisitos:** [requirements.md](requirements.md) (aprobado)
 **Se apoya en:** [diseño de la Spec 001](../001-diario-manual/design.md) (capa de datos, `FoodRef`, pantallas Registrar y Nuevo alimento)
 
