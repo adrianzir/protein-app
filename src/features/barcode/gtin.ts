@@ -68,3 +68,9 @@ export function normalizeGtin(raw: string, type?: string): string | null {
   if (code.length === 13) return isValidGtin(code) ? code : null;
   return null;
 }
+
+/** GTIN canónico recibido como parámetro de ruta; undefined si falta o no es canónico. */
+export function parseBarcodeParam(raw: string | string[] | undefined): string | undefined {
+  if (typeof raw !== 'string') return undefined;
+  return normalizeGtin(raw) === raw ? raw : undefined;
+}

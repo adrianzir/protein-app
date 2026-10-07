@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { expandUpcE, gs1CheckDigit, isValidGtin, normalizeGtin } from './gtin';
+import { expandUpcE, gs1CheckDigit, isValidGtin, normalizeGtin, parseBarcodeParam } from './gtin';
 
 describe('gs1CheckDigit / isValidGtin', () => {
   it('EAN-13, EAN-8 y UPC-A válidos', () => {
@@ -61,5 +61,16 @@ describe('normalizeGtin', () => {
     expect(normalizeGtin('4006381333932')).toBeNull();
     expect(normalizeGtin('abc')).toBeNull();
     expect(normalizeGtin('123')).toBeNull();
+  });
+});
+
+describe('parseBarcodeParam', () => {
+  it('solo acepta GTIN canónicos', () => {
+    expect(parseBarcodeParam('4006381333931')).toBe('4006381333931');
+    expect(parseBarcodeParam('96385074')).toBe('96385074');
+    expect(parseBarcodeParam('036000291452')).toBeUndefined(); // UPC-A sin normalizar
+    expect(parseBarcodeParam('4006381333932')).toBeUndefined();
+    expect(parseBarcodeParam(undefined)).toBeUndefined();
+    expect(parseBarcodeParam(['4006381333931'])).toBeUndefined();
   });
 });

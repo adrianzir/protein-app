@@ -9,6 +9,7 @@ import { Screen } from '@/components/Screen';
 import { TextField } from '@/components/TextField';
 import { colors, font, spacing } from '@/components/theme';
 import { parseDateParam, parseMealParam } from '@/features/diary/params';
+import { parseBarcodeParam } from '@/features/barcode/gtin';
 import { useCreateFood } from '@/features/foods/hooks';
 import { encodeFoodParam, validateCustomFood } from '@/features/foods/validation';
 import { errorMessage } from '@/lib/confirm';
@@ -16,16 +17,29 @@ import { parseDecimal } from '@/lib/format';
 
 export default function NewFoodScreen() {
   const headerHeight = useHeaderHeight();
-  const params = useLocalSearchParams<{ date?: string; meal?: string; name?: string }>();
+  const params = useLocalSearchParams<{
+    date?: string;
+    meal?: string;
+    name?: string;
+    brand?: string;
+    barcode?: string;
+    kcal?: string;
+    protein?: string;
+    carbs?: string;
+    fat?: string;
+  }>();
   const date = parseDateParam(params.date);
   const meal = parseMealParam(params.meal);
+  // Desde el escáner llegan el código y lo que se conozca del producto (Spec 002 · R4.1).
+  const barcode = parseBarcodeParam(params.barcode);
+  const initial = (v: string | string[] | undefined) => (typeof v === 'string' ? v : '');
 
-  const [name, setName] = useState(typeof params.name === 'string' ? params.name : '');
-  const [brand, setBrand] = useState('');
-  const [kcal, setKcal] = useState('');
-  const [protein, setProtein] = useState('');
-  const [carbs, setCarbs] = useState('');
-  const [fat, setFat] = useState('');
+  const [name, setName] = useState(initial(params.name));
+  const [brand, setBrand] = useState(initial(params.brand));
+  const [kcal, setKcal] = useState(initial(params.kcal));
+  const [protein, setProtein] = useState(initial(params.protein));
+  const [carbs, setCarbs] = useState(initial(params.carbs));
+  const [fat, setFat] = useState(initial(params.fat));
   const [submitted, setSubmitted] = useState(false);
   const create = useCreateFood();
 
@@ -42,7 +56,7 @@ export default function NewFoodScreen() {
   const onSave = () => {
     setSubmitted(true);
     if (!result.ok) return;
-    create.mutate(result.value, {
+    create.mutate({ ...result.value, barcode }, {
       onSuccess: (food) =>
         router.replace({ pathname: '/log/new', params: { date, meal, food: encodeFoodParam(food) } }),
       onError: (e) => Alert.alert('No se pudo guardar', errorMessage(e)),
@@ -52,6 +66,7 @@ export default function NewFoodScreen() {
   return (
     <Screen keyboardOffset={headerHeight}>
       <Text style={styles.help}>Copia los valores por 100 g de la etiqueta nutricional.</Text>
+      {barcode ? <Text style={styles.help}>Código de barras: {barcode}</Text> : null}
       <TextField label="Nombre" value={name} onChangeText={setName} error={errors.name} maxLength={120} />
       <TextField label="Marca (opcional)" value={brand} onChangeText={setBrand} error={errors.brand} maxLength={80} />
       <NumberField label="Calorías" unit="kcal" value={kcal} onChangeText={setKcal} error={errors.kcal} />
