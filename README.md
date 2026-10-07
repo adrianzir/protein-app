@@ -33,6 +33,7 @@ App móvil (iOS/Android) para registrar comidas y calcular calorías, proteína,
 | `20260923000000_profiles.sql` | Tabla `profiles` (datos y metas), creada automáticamente al registrarse |
 | `20260924000000_diary.sql` | Tablas `foods` y `food_logs`, búsqueda sin tildes, totales calculados por la base y políticas RLS |
 | `20260924000100_seed_catalog.sql` | Catálogo global de 99 alimentos (valores USDA por 100 g); se puede volver a aplicar para corregir valores |
+| `20261007000000_food_barcode.sql` | Código de barras (GTIN) en alimentos propios, único por usuario (Spec 002) |
 
 ## Scripts
 | Comando | Qué hace |

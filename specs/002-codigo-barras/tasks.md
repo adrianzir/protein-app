@@ -1,6 +1,6 @@
 # Spec 002 · Código de barras — Tareas
 
-**Estado:** Borrador
+**Estado:** Aprobado (2026-10-07)
 **Requisitos:** [requirements.md](requirements.md) · **Diseño:** [design.md](design.md)
 
 **Convenciones** (iguales a la Spec 001)
@@ -12,9 +12,9 @@
 
 ## Bloque A · Base de datos
 
-- [ ] **T1 · Migración `food_barcode`**: columna `barcode` (formato GTIN-8/13), restricción "solo `custom`", índice único `(owner_id, barcode)`. _(R4.2, R4.3)_
+- [x] **T1 · Migración `food_barcode`**: columna `barcode` (formato GTIN-8/13), restricción "solo `custom`", índice único `(owner_id, barcode)`. _(R4.2, R4.3)_
   ✔ Se aplica sobre las migraciones existentes en Postgres 16 local.
-- [ ] **T2 · Test SQL `tests/db/barcode_test.sql`**: formato inválido rechazado; código en catálogo rechazado; duplicado del mismo usuario rechazado; dos usuarios con el mismo código permitido; B no encuentra el código de A. _(R4.2, R4.3, R7)_
+- [x] **T2 · Test SQL `tests/db/barcode_test.sql`**: formato inválido rechazado; código en catálogo rechazado; duplicado del mismo usuario rechazado; dos usuarios con el mismo código permitido; B no encuentra el código de A. _(R4.2, R4.3, R7)_
   ✔ `npm run test:db` en verde localmente y en CI.
 
 ## Bloque B · Dominio (funciones puras + tests)
