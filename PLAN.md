@@ -40,7 +40,7 @@ Precisión esperada: identificación buena; **porciones ±20–30 %**. Por eso l
 | 0. Setup ✅ | 1 sem | Repo Expo, Supabase, auth, CI |
 | 1. Diario manual 🟡 ([spec](specs/001-diario-manual/)) | 2 sem | Perfil, metas, búsqueda de alimentos, registro, resumen diario |
 | 2. Código de barras 🟡 ([spec](specs/002-codigo-barras/)) | 1 sem | Escaneo con Open Food Facts |
-| 3. Foto con IA | 2–3 sem | Captura, análisis, pantalla de confirmación |
+| 3. Foto con IA 📝 ([spec](specs/003-foto-ia/)) | 2–3 sem | Captura, análisis, pantalla de confirmación |
 | 4. Historial y gráficos | 1–2 sem | Tendencias semanales, favoritos, comidas recientes |
 | 5. Beta y publicación | 2 sem | TestFlight / Play interno, ajustes, stores |
 
@@ -57,4 +57,4 @@ Se trabaja con **Spec-Driven Development**: cada fase tiene su spec en `specs/` 
 1. Crear el proyecto Supabase real, aplicar migraciones y ejecutar los checklists en dispositivos (Spec 001 T24 y Spec 002 T14) → Fases 1 y 2 ✅.
 2. Medir la precisión del análisis de foto con platos reales usando el [prototipo](prototypes/photo-ai/) (antes de la spec de la Fase 3).
 
-🟡 = implementada, pendiente de verificación en dispositivos.
+🟡 = implementada, pendiente de verificación en dispositivos · 📝 = spec en preparación.
