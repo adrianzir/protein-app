@@ -33,11 +33,12 @@ export function QueryProvider({ children }: PropsWithChildren) {
   useAppStateFocus();
 
   // Al cerrar sesión o cambiar de usuario se borra la caché: no quedan datos de otra cuenta (R7.1).
+  // Al iniciar sesión (null → usuario) no se limpia: la caché está vacía y las pantallas ya
+  // habrán empezado sus consultas (los efectos de los hijos corren antes), que quedarían colgadas.
   useEffect(() => {
-    if (previousUserId.current !== userId) {
-      queryClient.clear();
-      previousUserId.current = userId;
-    }
+    const previous = previousUserId.current;
+    previousUserId.current = userId;
+    if (previous !== null && previous !== userId) queryClient.clear();
   }, [queryClient, userId]);
 
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;

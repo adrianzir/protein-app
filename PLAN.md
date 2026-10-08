@@ -8,7 +8,7 @@ Registrar comidas por **foto**, **búsqueda** o **código de barras**, y calcula
 |---|---|---|
 | App | **React Native + Expo** (TypeScript) | iOS + Android con un solo código |
 | Backend | **Supabase** (Auth, Postgres, Storage, Edge Functions) | Rápido, barato, sin servidores propios |
-| Reconocimiento de foto | **API de modelo con visión** (p. ej. Claude) vía Edge Function | Identifica platos y estima porciones sin entrenar modelos |
+| Reconocimiento de foto | **API de modelo con visión** vía Edge Function (Gemini o modelos gratuitos para el piloto; Claude como referencia, según el [prototipo](prototypes/photo-ai/)) | Identifica platos y estima porciones sin entrenar modelos |
 | Base nutricional | **USDA FoodData Central** + **Open Food Facts** (códigos de barras) | Gratuitas y amplias |
 | Estado / datos | Zustand + TanStack Query | Simple |
 | Gráficos | Victory Native | Anillos/barras de macros |
@@ -38,8 +38,8 @@ Precisión esperada: identificación buena; **porciones ±20–30 %**. Por eso l
 | Fase | Duración aprox. | Entregable |
 |---|---|---|
 | 0. Setup ✅ | 1 sem | Repo Expo, Supabase, auth, CI |
-| 1. Diario manual ([spec](specs/001-diario-manual/)) | 2 sem | Perfil, metas, búsqueda de alimentos, registro, resumen diario |
-| 2. Código de barras | 1 sem | Escaneo con Open Food Facts |
+| 1. Diario manual 🟡 ([spec](specs/001-diario-manual/)) | 2 sem | Perfil, metas, búsqueda de alimentos, registro, resumen diario |
+| 2. Código de barras 🟡 ([spec](specs/002-codigo-barras/)) | 1 sem | Escaneo con Open Food Facts |
 | 3. Foto con IA | 2–3 sem | Captura, análisis, pantalla de confirmación |
 | 4. Historial y gráficos | 1–2 sem | Tendencias semanales, favoritos, comidas recientes |
 | 5. Beta y publicación | 2 sem | TestFlight / Play interno, ajustes, stores |
@@ -54,6 +54,7 @@ Precisión esperada: identificación buena; **porciones ±20–30 %**. Por eso l
 Se trabaja con **Spec-Driven Development**: cada fase tiene su spec en `specs/` (requisitos → diseño → tareas) antes de implementar. Ver AGENTS.md.
 
 ## 9. Próximos pasos
-1. Validar alcance del MVP.
-2. Crear proyecto Expo + Supabase (Fase 0).
-3. Prototipo rápido del análisis de foto para medir precisión con platos reales.
+1. Crear el proyecto Supabase real, aplicar migraciones y ejecutar los checklists en dispositivos (Spec 001 T24 y Spec 002 T14) → Fases 1 y 2 ✅.
+2. Medir la precisión del análisis de foto con platos reales usando el [prototipo](prototypes/photo-ai/) (antes de la spec de la Fase 3).
+
+🟡 = implementada, pendiente de verificación en dispositivos.

@@ -1,6 +1,6 @@
 # Spec 001 · Diario manual — Requisitos
 
-**Estado:** Aprobado v2 (2026-09-24 · alcance global)
+**Estado:** Implementado (2026-09-28) · pendiente verificación en dispositivos (T24)
 **Fase del plan:** 1 (ver [PLAN.md](../../PLAN.md))
 **Plataformas:** Android e iOS
 

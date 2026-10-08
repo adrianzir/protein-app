@@ -1,6 +1,6 @@
 # Spec 001 · Diario manual — Diseño
 
-**Estado:** Aprobado v2 (2026-09-24)
+**Estado:** Implementado (2026-09-28) · pendiente verificación en dispositivos (T24)
 **Requisitos:** [requirements.md](requirements.md) (aprobado)
 
 ---
@@ -182,6 +182,9 @@ TMB 1780 → TDEE 2759 → **2759 kcal · 128 g proteína · 77 g grasa · 389 g
 
 - Un `QueryProvider` en `src/providers/` envuelve la app (dentro de `AuthProvider`). Cuando cambia el usuario (cerrar sesión o entrar con otra cuenta) se ejecuta `queryClient.clear()` para que no quede información de otro usuario. En móvil, volver a primer plano refresca los datos vencidos (`focusManager` + `AppState`).
 - `useUserId()` (en `AuthProvider`) entrega el id del usuario con sesión a las mutaciones.
+- La caché **no** se limpia al iniciar sesión (null → usuario): las pantallas ya empezaron sus consultas y quedarían colgadas. Hay un test de regresión.
+- Los parámetros de ruta `date` y `meal` se validan con `parseDateParam` / `parseMealParam` (`features/diary/params.ts`): fecha futura o inválida → hoy.
+- Los formularios que editan datos cargados (Perfil, Editar registro) se montan cuando los datos ya llegaron, para tomar el estado inicial sin `setState` en efectos.
 - Cada `api.ts` tiene funciones puras de mapeo fila ↔ dominio (`profileFromRow`, `foodFromRow`, `entryFromRow`, `entryToInsert`…) con tests. La búsqueda local aplica un `ILIKE` por palabra (todas deben aparecer) y escapa `%` y `_`.
 - Los tipos de fila se escriben a mano en `src/features/*/types.ts`. Cuando exista un proyecto Supabase vinculado se generarán con `supabase gen types`.
 
@@ -240,6 +243,8 @@ Los alimentos de Open Food Facts no existen en la base de datos, así que el ali
 | `MealSection` | Título, subtotal de kcal, lista de `LogRow` y botón "+" |
 | `FoodRow` / `LogRow` | Filas pulsables |
 | `Banner` | Aviso informativo o de error, no bloqueante |
+| `DateField` | Fecha con selector nativo (diálogo en Android, rueda en iOS); en web, campo AAAA-MM-DD |
+| `LogForm` | Formulario compartido por Registrar y Editar: alimento, gramos, comida y vista previa |
 
 - **Estilo:** `StyleSheet` nativo y un archivo `src/components/theme.ts` con colores, espaciados y tipografía. No se agrega ninguna librería de UI.
 - **Colores:** verde primario `#16a34a`; alerta `#dc2626` con ícono y texto, nunca solo color.

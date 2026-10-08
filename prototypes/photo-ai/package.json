@@ -1,0 +1,23 @@
+{
+  "name": "photo-ai-prototype",
+  "private": true,
+  "type": "module",
+  "description": "Prototipo: precisión del análisis de fotos de comida con Claude (Fase 3).",
+  "scripts": {
+    "analyze": "node --experimental-strip-types src/analyze.ts",
+    "report": "node --experimental-strip-types src/report.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test src/*.test.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.132.0",
+    "@google/genai": "^2.28.0",
+    "openai": "^7.30.1",
+    "sharp": "^0.35.5",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "~6.0.3"
+  }
+}

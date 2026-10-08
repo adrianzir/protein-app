@@ -1,6 +1,6 @@
 # Spec 001 · Diario manual — Tareas
 
-**Estado:** Aprobado v2 (2026-09-24)
+**Estado:** Implementado (2026-09-28) · pendiente verificación en dispositivos (T24)
 **Requisitos:** [requirements.md](requirements.md) · **Diseño:** [design.md](design.md)
 
 **Convenciones**
@@ -56,28 +56,31 @@
 
 ## Bloque E · Pantallas
 
-- [ ] **T17 · Navegación**: `(app)/_layout` Stack + `(tabs)` con "Hoy" y "Perfil"; mover "Cerrar sesión" a Perfil; rutas modales vacías. _(R8.1)_
+- [x] **T17 · Navegación**: `(app)/_layout` Stack + `(tabs)` con "Hoy" y "Perfil"; mover "Cerrar sesión" a Perfil; rutas modales vacías. _(R8.1)_
   ✔ Se compila para Android e iOS (`expo export`).
-- [ ] **T18 · Pantalla Perfil**: formulario, vista previa de metas en vivo, guardar datos y metas. _(R1.1–R1.3, R2.3, R2.4)_
+- [x] **T18 · Pantalla Perfil**: formulario, vista previa de metas en vivo, guardar datos y metas. _(R1.1–R1.3, R2.3, R2.4)_
   ✔ Manual: guardar, cerrar sesión, volver a entrar → los datos persisten.
-- [ ] **T19 · Pantalla Hoy**: navegador de días, aviso de perfil incompleto, 4 barras, secciones por comida con subtotales. _(R1.4, R6.1–R6.4)_
+- [x] **T19 · Pantalla Hoy**: navegador de días, aviso de perfil incompleto, 4 barras, secciones por comida con subtotales. _(R1.4, R6.1–R6.4)_
   ✔ Manual: ▶ desactivado en hoy; el aviso desaparece al completar el perfil.
-- [ ] **T20 · Pantalla Buscar**: búsqueda local + OFF con espera de 400 ms, secciones, aviso si OFF falla, enlace a "Nuevo alimento". _(R3.2–R3.6)_
+- [x] **T20 · Pantalla Buscar**: búsqueda local + OFF con espera de 400 ms, secciones, aviso si OFF falla, enlace a "Nuevo alimento". _(R3.2–R3.6)_
   ✔ Manual: en modo avión se ve el aviso y los resultados locales siguen apareciendo.
-- [ ] **T21 · Pantalla Nuevo alimento.** _(R4.1–R4.3)_
+- [x] **T21 · Pantalla Nuevo alimento.** _(R4.1–R4.3)_
   ✔ Manual: un alimento creado aparece en la búsqueda solo para su dueño.
-- [ ] **T22 · Pantalla Registrar**: gramos (100 por defecto), tipo de comida, vista previa en vivo, guardar en el día seleccionado. _(R5.1–R5.5, R6.5)_
+- [x] **T22 · Pantalla Registrar**: gramos (100 por defecto), tipo de comida, vista previa en vivo, guardar en el día seleccionado. _(R5.1–R5.5, R6.5)_
   ✔ Manual: al guardar, "Hoy" muestra el registro sin recargar.
-- [ ] **T23 · Pantalla Editar registro**: cambiar gramos y comida; eliminar con confirmación. _(R5.6, R6.5)_
+- [x] **T23 · Pantalla Editar registro**: cambiar gramos y comida; eliminar con confirmación. _(R5.6, R6.5)_
   ✔ Manual: editar recalcula los totales; eliminar pide confirmación.
 
 ## Bloque F · Cierre
 
 - [ ] **T24 · Verificación en dispositivos**: checklist manual completo en **Android e iOS** con Expo Go (flujo completo, teclado, días, modo avión). _(R8.1, R8.3)_
   ✔ Checklist marcado en la sección siguiente.
-- [ ] **T25 · Documentación**: README (nuevas migraciones, cómo probar), estado de la spec → Implementado, PLAN (Fase 1 ✅). _(—)_
+- [x] **T25 · Documentación**: README (nuevas migraciones, cómo probar), estado de la spec → Implementado, PLAN (Fase 1 ✅). _(—)_
 
 ---
+
+## Verificación automática en web (bloque E)
+Prueba de extremo a extremo con Playwright sobre la versión web, con Supabase y Open Food Facts simulados: perfil incompleto → completar (metas 2759/128/389/77) → guardar → Hoy con metas → buscar "pollo" (catálogo visible, OFF caído con aviso) → registrar 150 g (248 kcal) → Hoy actualizado sin recargar → editar con 0 g muestra error → navegar al día anterior. Detectó y permitió corregir un bug de caché al iniciar sesión. **No reemplaza** el checklist en dispositivos (T24).
 
 ## Checklist manual (T24)
 | # | Paso | Android | iOS |

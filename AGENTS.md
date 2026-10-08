@@ -37,6 +37,7 @@ src/
 supabase/
   migrations/   # SQL versionado; nunca editar una migración ya aplicada, crear otra
 specs/          # especificaciones SDD
+prototypes/     # experimentos aislados (paquete propio, sin spec); la app nunca los importa
 ```
 
 ## Convenciones

@@ -1,0 +1,5 @@
+node_modules/
+results/
+# Fotos privadas del dataset: no se suben al repositorio
+dataset/*
+!dataset/truth.example.csv

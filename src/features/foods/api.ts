@@ -16,6 +16,7 @@ export type FoodRow = {
   name: string;
   brand: string | null;
   aliases: string[];
+  barcode: string | null;
   kcal_100g: number;
   protein_100g: number;
   carbs_100g: number;
@@ -63,7 +64,30 @@ export async function searchLocalFoods(query: string): Promise<FoodRef[]> {
   return (data as FoodRow[]).map(foodFromRow);
 }
 
-export async function createCustomFood(userId: string, input: CustomFoodInput): Promise<FoodRef> {
+/** Violación de índice único en Postgres. */
+const UNIQUE_VIOLATION = '23505';
+
+/**
+ * Alimento propio con ese código de barras (GTIN canónico), o null.
+ * RLS limita la búsqueda a los alimentos del usuario (Spec 002 · R3.1).
+ */
+export async function findOwnFoodByBarcode(gtin: string): Promise<FoodRef | null> {
+  const { data, error } = await supabase
+    .from('foods')
+    .select('*')
+    .eq('source', 'custom')
+    .eq('barcode', gtin)
+    .limit(1)
+    .maybeSingle();
+  if (error) throw error;
+  return data ? foodFromRow(data as FoodRow) : null;
+}
+
+/**
+ * Crea un alimento propio. Con `barcode` (GTIN canónico), si el usuario ya tiene un alimento con
+ * ese código se devuelve el existente en vez de duplicarlo (Spec 002 · R4.3).
+ */
+export async function createCustomFood(userId: string, input: CustomFoodInput, barcode?: string): Promise<FoodRef> {
   const { data, error } = await supabase
     .from('foods')
     .insert({
@@ -71,6 +95,7 @@ export async function createCustomFood(userId: string, input: CustomFoodInput): 
       source: 'custom',
       name: input.name,
       brand: input.brand,
+      barcode: barcode ?? null,
       kcal_100g: input.per100g.kcal,
       protein_100g: input.per100g.protein,
       carbs_100g: input.per100g.carbs,
@@ -78,6 +103,12 @@ export async function createCustomFood(userId: string, input: CustomFoodInput): 
     })
     .select('*')
     .single();
-  if (error) throw error;
+  if (error) {
+    if (barcode && error.code === UNIQUE_VIOLATION) {
+      const existing = await findOwnFoodByBarcode(barcode);
+      if (existing) return existing;
+    }
+    throw error;
+  }
   return foodFromRow(data as FoodRow);
 }
