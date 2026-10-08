@@ -1,6 +1,6 @@
 # Spec 003 · Foto con IA — Requisitos
 
-**Estado:** Borrador
+**Estado:** Aprobado (2026-10-08) · el proveedor de IA (Q1) se decide con el prototipo antes del diseño
 **Fase del plan:** 3 (ver [PLAN.md](../../PLAN.md) §3)
 **Depende de:** [Spec 001 · Diario manual](../001-diario-manual/requirements.md) (búsqueda, registro, tipos de comida) y del [prototipo de foto](../../prototypes/photo-ai/) (elección del proveedor de IA)
 **Plataformas:** Android e iOS (web: solo elegir una imagen guardada, para pruebas)
@@ -100,7 +100,7 @@ El proveedor de IA se elige con el prototipo (preferencia: **Gemini en su plan g
 |---|---|---|---|
 | Q1 | Proveedor y modelo de IA | Se decide con el prototipo; preferencia Gemini (plan gratuito) o un servicio gratuito | Pendiente |
 | Q2 | ¿Guardar las fotos? | **No** (R2.5): menos riesgo de privacidad y sin costo de almacenamiento | Resuelta (2026-10-08) |
-| Q3 | Límite diario de análisis | 10 por usuario en el piloto, ajustable en el servidor | Propuesta |
-| Q4 | Ubicación del botón "Foto" | En Buscar, junto a "Escanear código" (igual que en la Spec 002) | Propuesta |
-| Q5 | Umbral de "Revisa" | Confianza menor a 0,6 | Propuesta |
+| Q3 | Límite diario de análisis | **10** por usuario en el piloto, ajustable en el servidor | Resuelta (2026-10-08) |
+| Q4 | Ubicación del botón "Foto" | **En Buscar**, junto a "Escanear código" (igual que en la Spec 002) | Resuelta (2026-10-08) |
+| Q5 | Umbral de "Revisa" | **Confianza menor a 0,6**; se recalibra con los datos de R7 | Resuelta (2026-10-08) |
 | Q6 | Registrar las correcciones (R7) | **Sí**, para medir la precisión real durante el piloto | Resuelta (2026-10-08) |
