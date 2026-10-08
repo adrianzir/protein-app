@@ -95,12 +95,12 @@ El proveedor de IA se elige con el prototipo (preferencia: **Gemini en su plan g
 
 ---
 
-## Decisiones pendientes (propuestas)
-| # | Pregunta | Propuesta |
-|---|---|---|
-| Q1 | Proveedor y modelo de IA | Se decide con el prototipo; preferencia Gemini (plan gratuito) o un servicio gratuito |
-| Q2 | ¿Guardar las fotos? | No en F3: menos riesgo de privacidad y sin costo de almacenamiento |
-| Q3 | Límite diario de análisis | 10 por usuario en el piloto, ajustable en el servidor |
-| Q4 | Ubicación del botón "Foto" | En Buscar, junto a "Escanear código" (igual que en la Spec 002) |
-| Q5 | Umbral de "Revisa" | Confianza menor a 0,6 |
-| Q6 | Registrar las correcciones (R7) | Sí, para medir la precisión real durante el piloto |
+## Decisiones
+| # | Pregunta | Decisión | Estado |
+|---|---|---|---|
+| Q1 | Proveedor y modelo de IA | Se decide con el prototipo; preferencia Gemini (plan gratuito) o un servicio gratuito | Pendiente |
+| Q2 | ¿Guardar las fotos? | **No** (R2.5): menos riesgo de privacidad y sin costo de almacenamiento | Resuelta (2026-10-08) |
+| Q3 | Límite diario de análisis | 10 por usuario en el piloto, ajustable en el servidor | Propuesta |
+| Q4 | Ubicación del botón "Foto" | En Buscar, junto a "Escanear código" (igual que en la Spec 002) | Propuesta |
+| Q5 | Umbral de "Revisa" | Confianza menor a 0,6 | Propuesta |
+| Q6 | Registrar las correcciones (R7) | **Sí**, para medir la precisión real durante el piloto | Resuelta (2026-10-08) |
