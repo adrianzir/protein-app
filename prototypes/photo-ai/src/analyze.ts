@@ -1,101 +1,109 @@
 import { mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { setTimeout as sleep } from 'node:timers/promises';
 import { parseArgs } from 'node:util';
 
-import Anthropic from '@anthropic-ai/sdk';
-import { betaZodOutputFormat } from '@anthropic-ai/sdk/helpers/beta/zod';
-
 import { prepareImage } from './image.ts';
-import { PROMPT_VERSION, SYSTEM_PROMPT, USER_PROMPT } from './prompt.ts';
+import { PROMPT_VERSION } from './prompt.ts';
+import {
+  type AnalyzerOptions,
+  createAnalyzer,
+  errorStatus,
+  isProviderId,
+  isRetryable,
+  PROVIDERS,
+} from './providers.ts';
 import { buildReport, type PhotoResult, readTruth, type Run } from './report.ts';
-import { PhotoAnalysisSchema } from './schema.ts';
 
-// Uso: npm run analyze -- [--dataset dataset] [--model claude-opus-5-5] [--effort medium] [--limit N]
+// Uso: npm run analyze -- [--provider gemini] [--model …] [--dataset dataset] [--limit N] [--delay ms]
 const { values: args } = parseArgs({
   options: {
+    provider: { type: 'string', default: 'gemini' },
+    model: { type: 'string' },
     dataset: { type: 'string', default: 'dataset' },
-    model: { type: 'string', default: 'claude-opus-5-5' },
-    effort: { type: 'string', default: 'medium' },
     limit: { type: 'string' },
+    delay: { type: 'string', default: '0' },
+    effort: { type: 'string', default: 'medium' },
+    json: { type: 'string', default: 'schema' },
+    'list-models': { type: 'boolean', default: false },
   },
 });
 
-const EFFORTS = ['low', 'medium', 'high', 'xhigh', 'max'] as const;
-type Effort = (typeof EFFORTS)[number];
-const effort = args.effort as Effort;
-if (!EFFORTS.includes(effort)) {
-  console.error(`--effort debe ser uno de: ${EFFORTS.join(', ')}`);
+const fail = (message: string): never => {
+  console.error(message);
   process.exit(1);
+};
+
+const provider = isProviderId(args.provider)
+  ? args.provider
+  : fail(`--provider debe ser uno de: ${Object.keys(PROVIDERS).join(', ')}`);
+const EFFORTS = ['low', 'medium', 'high', 'xhigh', 'max'] as const;
+const effort = EFFORTS.find((e) => e === args.effort) ?? fail(`--effort debe ser uno de: ${EFFORTS.join(', ')}`);
+const json = args.json === 'schema' || args.json === 'object' ? args.json : fail('--json debe ser schema u object');
+const options: AnalyzerOptions = { model: args.model ?? PROVIDERS[provider].defaultModel, effort, json };
+
+let analyzer: ReturnType<typeof createAnalyzer>;
+try {
+  analyzer = createAnalyzer(provider, options);
+} catch (e) {
+  fail((e as Error).message);
+}
+
+if (args['list-models']) {
+  const models = await analyzer!.listModels();
+  console.log(models.join('\n'));
+  process.exit(0);
 }
 
 const photos = readdirSync(args.dataset)
   .filter((f) => /\.(jpe?g|png|webp|heic|heif)$/i.test(f))
   .sort()
   .slice(0, args.limit ? Number(args.limit) : undefined);
-if (photos.length === 0) {
-  console.error(`No hay fotos en ${args.dataset}/ (jpg, png, webp o heic).`);
-  process.exit(1);
-}
+if (photos.length === 0) fail(`No hay fotos en ${args.dataset}/ (jpg, png, webp o heic).`);
 
-// Credenciales desde ANTHROPIC_API_KEY (o un perfil de `ant auth login`).
-const client = new Anthropic();
-const format = betaZodOutputFormat(PhotoAnalysisSchema);
+// Los planes gratuitos limitan las solicitudes por minuto: reintenta 429 y 5xx con espera creciente.
+const RETRIES = 3;
 
 async function analyzePhoto(photo: string): Promise<PhotoResult> {
-  const started = Date.now();
-  try {
-    const image = await prepareImage(join(args.dataset, photo));
-    const response = await client.beta.messages.parse({
-      model: args.model,
-      max_tokens: 16000,
-      // Si el modelo declina por política, la API reintenta con un modelo de respaldo.
-      betas: ['server-side-fallback-2026-07-01'],
-      fallbacks: 'default',
-      output_config: { effort, format },
-      system: SYSTEM_PROMPT,
-      messages: [
-        {
-          role: 'user',
-          content: [
-            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: image.base64 } },
-            { type: 'text', text: USER_PROMPT },
-          ],
-        },
-      ],
-    });
-    const base = {
-      photo,
-      model: response.model,
-      latencyMs: Date.now() - started,
-      inputTokens: response.usage.input_tokens,
-      outputTokens: response.usage.output_tokens,
-      stopReason: response.stop_reason,
-    };
-    if (response.stop_reason === 'refusal') return { ...base, error: 'El modelo declinó la foto' };
-    if (!response.parsed_output) return { ...base, error: `Respuesta sin JSON válido (${response.stop_reason})` };
-    return { ...base, analysis: response.parsed_output };
-  } catch (e) {
-    const message =
-      e instanceof Anthropic.AuthenticationError
-        ? 'Falta o no es válida ANTHROPIC_API_KEY'
-        : e instanceof Anthropic.APIError
-          ? `API ${e.status}: ${e.message}`
-          : e instanceof Error
-            ? e.message
-            : String(e);
-    return { photo, latencyMs: Date.now() - started, inputTokens: 0, outputTokens: 0, error: message };
+  const image = await prepareImage(join(args.dataset, photo));
+  for (let attempt = 0; ; attempt++) {
+    // El tiempo se mide por intento: las esperas por límite de uso no cuentan.
+    const started = Date.now();
+    try {
+      const outcome = await analyzer!.analyze(image);
+      return { photo, latencyMs: Date.now() - started, ...outcome };
+    } catch (e) {
+      if (isRetryable(e) && attempt < RETRIES) {
+        const wait = 5_000 * 2 ** attempt;
+        console.log(`  ${photo}: error ${errorStatus(e)}, reintento en ${wait / 1000} s`);
+        await sleep(wait);
+        continue;
+      }
+      const status = errorStatus(e);
+      const message = status === 401 || status === 403 ? 'Clave inválida o sin permiso' : (e as Error).message;
+      return {
+        photo,
+        model: options.model,
+        latencyMs: Date.now() - started,
+        inputTokens: 0,
+        outputTokens: 0,
+        error: status ? `HTTP ${status}: ${message}` : message,
+      };
+    }
   }
 }
 
 const run: Run = {
   startedAt: new Date().toISOString(),
-  model: args.model,
-  effort,
+  provider,
+  model: options.model,
+  effort: provider === 'claude' ? effort : '—',
   promptVersion: PROMPT_VERSION,
   results: [],
 };
 
 for (const [i, photo] of photos.entries()) {
+  if (i > 0 && Number(args.delay) > 0) await sleep(Number(args.delay));
   const result = await analyzePhoto(photo);
   run.results.push(result);
   const summary = result.analysis
@@ -106,7 +114,7 @@ for (const [i, photo] of photos.entries()) {
 
 mkdirSync('results', { recursive: true });
 const stamp = run.startedAt.replace(/[:.]/g, '-');
-const jsonPath = `results/run-${stamp}.json`;
+const jsonPath = `results/run-${stamp}-${provider}.json`;
 writeFileSync(jsonPath, JSON.stringify(run, null, 2));
 const md = buildReport(run, readTruth(join(args.dataset, 'truth.csv')));
 writeFileSync(jsonPath.replace(/\.json$/, '.md'), md);

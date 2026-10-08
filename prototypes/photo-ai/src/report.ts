@@ -27,6 +27,8 @@ export type PhotoResult = {
 
 export type Run = {
   startedAt: string;
+  /** Corridas anteriores a los proveedores múltiples no lo tienen: eran de Claude. */
+  provider?: string;
   model: string;
   effort: string;
   promptVersion: string;
@@ -49,19 +51,24 @@ const round = (x: number) => (Math.abs(x) >= 10 ? Math.round(x) : Math.round(x *
 export function buildReport(run: Run, truth: Map<string, TruthItem[]>): string {
   const ok = run.results.filter((r) => r.analysis);
   const failed = run.results.filter((r) => !r.analysis);
-  const costs = run.results.map((r) => costUsd(r.model ?? run.model, r.inputTokens, r.outputTokens) ?? 0);
+  // Sin precio conocido (planes gratuitos o modelos locales) el costo no se suma.
+  const costs = run.results.map((r) => costUsd(r.model ?? run.model, r.inputTokens, r.outputTokens));
+  const knownCosts = costs.filter((c): c is number => c !== undefined);
+  const costText = (value: number) => (knownCosts.length ? `US$ ${value.toFixed(4)}` : '— (sin precio: plan gratuito o local)');
+  const tokens = run.results.map((r) => r.inputTokens + r.outputTokens);
   const latencies = run.results.map((r) => r.latencyMs / 1000);
 
   const lines: string[] = [
     `# Prototipo foto con IA · ${run.startedAt}`,
     '',
-    `Modelo \`${run.model}\` · esfuerzo \`${run.effort}\` · prompt ${run.promptVersion} · ${run.results.length} fotos (${failed.length} con error)`,
+    `Proveedor \`${run.provider ?? 'claude'}\` · modelo \`${run.model}\` · esfuerzo \`${run.effort}\` · prompt ${run.promptVersion} · ${run.results.length} fotos (${failed.length} con error)`,
     '',
     '## Costo y tiempo',
     '| Métrica | Valor |',
     '|---|---|',
-    `| Costo total | US$ ${sumOf(costs).toFixed(4)} |`,
-    `| Costo por foto (promedio) | US$ ${(sumOf(costs) / Math.max(costs.length, 1)).toFixed(4)} |`,
+    `| Costo total | ${costText(sumOf(knownCosts))} |`,
+    `| Costo por foto (promedio) | ${costText(sumOf(knownCosts) / Math.max(knownCosts.length, 1))} |`,
+    `| Tokens por foto (mediana) | ${Math.round(percentile(tokens, 50))} |`,
     `| Tiempo por foto (mediana / p90) | ${percentile(latencies, 50).toFixed(1)} s / ${percentile(latencies, 90).toFixed(1)} s |`,
     '',
   ];

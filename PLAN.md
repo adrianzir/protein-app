@@ -8,7 +8,7 @@ Registrar comidas por **foto**, **búsqueda** o **código de barras**, y calcula
 |---|---|---|
 | App | **React Native + Expo** (TypeScript) | iOS + Android con un solo código |
 | Backend | **Supabase** (Auth, Postgres, Storage, Edge Functions) | Rápido, barato, sin servidores propios |
-| Reconocimiento de foto | **API de modelo con visión** (p. ej. Claude) vía Edge Function | Identifica platos y estima porciones sin entrenar modelos |
+| Reconocimiento de foto | **API de modelo con visión** vía Edge Function (Gemini o modelos gratuitos para el piloto; Claude como referencia, según el [prototipo](prototypes/photo-ai/)) | Identifica platos y estima porciones sin entrenar modelos |
 | Base nutricional | **USDA FoodData Central** + **Open Food Facts** (códigos de barras) | Gratuitas y amplias |
 | Estado / datos | Zustand + TanStack Query | Simple |
 | Gráficos | Victory Native | Anillos/barras de macros |
