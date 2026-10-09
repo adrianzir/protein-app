@@ -1,6 +1,6 @@
 # Spec 004 · Historial, favoritos y recientes — Requisitos
 
-**Estado:** Borrador
+**Estado:** Aprobado (2026-10-09)
 **Fase del plan:** 4 (ver [PLAN.md](../../PLAN.md))
 **Depende de:** [Spec 001 · Diario manual](../001-diario-manual/requirements.md) (registros, metas, búsqueda)
 **Plataformas:** Android e iOS
@@ -76,8 +76,8 @@ Hoy cada registro parte de cero: hay que buscar el alimento aunque se coma lo mi
 
 ---
 
-## Decisiones pendientes (propuestas)
-| # | Pregunta | Propuesta |
+## Decisiones (aprobadas 2026-10-09)
+| # | Pregunta | Decisión |
 |---|---|---|
 | Q1 | Ubicación de Progreso | Nueva pestaña entre Hoy y Perfil |
 | Q2 | Meta de referencia en el historial | La **meta actual** (no se guarda un historial de metas en F4) |
