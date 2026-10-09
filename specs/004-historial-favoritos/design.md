@@ -1,6 +1,6 @@
 # Spec 004 · Historial, favoritos y recientes — Diseño
 
-**Estado:** Borrador
+**Estado:** Aprobado (2026-10-09)
 **Requisitos:** [requirements.md](requirements.md) (aprobado)
 **Se apoya en:** [diseño de la Spec 001](../001-diario-manual/design.md) (`food_logs`, `FoodRef`, `LogForm`, Buscar, Hoy)
 
