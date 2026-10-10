@@ -1,6 +1,6 @@
 # Spec 004 · Historial, favoritos y recientes — Tareas
 
-**Estado:** Borrador
+**Estado:** Aprobado (2026-10-10)
 **Requisitos:** [requirements.md](requirements.md) · **Diseño:** [design.md](design.md)
 
 **Convenciones** (iguales a las Specs 001 y 002)
@@ -12,9 +12,9 @@
 
 ## Bloque A · Base de datos
 
-- [ ] **T1 · Migración `favorite_foods`**: tabla con copia del alimento, `unique (user_id, food_key)`, `food_id` con borrado en cascada, RLS de select/insert/delete propios. _(R2.4, R2.6)_
+- [x] **T1 · Migración `favorite_foods`**: tabla con copia del alimento, `unique (user_id, food_key)`, `food_id` con borrado en cascada, RLS de select/insert/delete propios. _(R2.4, R2.6)_
   ✔ Se aplica sobre las migraciones existentes en Postgres 16 local.
-- [ ] **T2 · Test SQL `tests/db/favorites_test.sql`**: B no ve ni borra favoritos de A; el mismo alimento dos veces para un usuario se rechaza; dos usuarios pueden tener el mismo favorito; borrar un alimento propio borra su favorito; valores fuera de rango se rechazan. _(R2.6, R6.3)_
+- [x] **T2 · Test SQL `tests/db/favorites_test.sql`**: B no ve ni borra favoritos de A; el mismo alimento dos veces para un usuario se rechaza; dos usuarios pueden tener el mismo favorito; borrar un alimento propio borra su favorito; valores fuera de rango se rechazan. _(R2.6, R6.3)_
   ✔ `npm run test:db` en verde localmente y en CI.
 
 ## Bloque B · Dominio (funciones puras + tests)
