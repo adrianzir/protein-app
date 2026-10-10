@@ -50,13 +50,13 @@
 
 ## Bloque E · Pantallas
 
-- [ ] **T14 · Buscar**: secciones Favoritos y Recientes con la consulta vacía; estrella en resultados; Registrar con gramos iniciales. _(R1, R2.2, R2.3, R2.5)_
+- [x] **T14 · Buscar**: secciones Favoritos y Recientes con la consulta vacía; estrella en resultados; Registrar con gramos iniciales. _(R1, R2.2, R2.3, R2.5)_
   ✔ Prueba web: elegir un reciente abre Registrar con los gramos de la última vez.
-- [ ] **T15 · Estrella en Registrar y Editar registro**. _(R2.1)_
+- [x] **T15 · Estrella en Registrar y Editar registro**. _(R2.1)_
   ✔ Prueba web: marcar → aparece en Favoritos de Buscar; desmarcar → desaparece.
-- [ ] **T16 · Hoy: Repetir de ayer** con confirmación (lista y total de kcal). _(R3)_
+- [x] **T16 · Hoy: Repetir de ayer** con confirmación (lista y total de kcal). _(R3)_
   ✔ Prueba web: copia los registros de ayer a la comida vacía; cancelar no copia nada.
-- [ ] **T17 · Pestaña Progreso**: período 7/30 días con navegación, métrica, gráfico, resumen, sin meta y sin registros; toque en un día abre Hoy. _(R4, R5.3)_
+- [x] **T17 · Pestaña Progreso**: período 7/30 días con navegación, métrica, gráfico, resumen, sin meta y sin registros; toque en un día abre Hoy. _(R4, R5.3)_
   ✔ Prueba web: los totales de un día en Progreso coinciden con Hoy; ▶ desactivado en el período actual; tocar un día abre Hoy en esa fecha.
 
 ## Bloque F · Cierre

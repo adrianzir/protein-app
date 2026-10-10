@@ -112,6 +112,7 @@ describe('BarChart (Spec 004 · T13)', () => {
     await render(
       <BarChart data={many} goal={null} color={colors.kcal} summary="R" onPressDay={() => {}} labelEvery={5} />,
     );
+    await layout();
     // Las etiquetas están ocultas para el lector de pantalla: cada botón ya nombra su día.
     const hidden = { includeHiddenElements: true };
     for (const shown of ['1', '6', '11', '12']) expect(screen.getByText(shown, hidden)).toBeTruthy();

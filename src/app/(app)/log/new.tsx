@@ -1,26 +1,34 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useHeaderHeight } from 'expo-router/react-navigation';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Alert, StyleSheet, Text } from 'react-native';
 
 import { Button } from '@/components/Button';
+import { FavoriteButton } from '@/components/FavoriteButton';
 import { LogForm } from '@/components/LogForm';
 import { Screen } from '@/components/Screen';
 import { colors, font } from '@/components/theme';
 import { useAddEntry } from '@/features/diary/hooks';
-import { GRAMS_LIMITS, validateGrams, type MealType } from '@/features/diary/macros';
-import { parseDateParam, parseMealParam } from '@/features/diary/params';
+import { validateGrams, type MealType } from '@/features/diary/macros';
+import { parseDateParam, parseGramsParam, parseMealParam } from '@/features/diary/params';
 import { parseFoodParam } from '@/features/foods/validation';
 import { errorMessage } from '@/lib/confirm';
-import { parseDecimal } from '@/lib/format';
+import { formatGrams, parseDecimal } from '@/lib/format';
 
 export default function NewLogScreen() {
   const headerHeight = useHeaderHeight();
-  const params = useLocalSearchParams<{ date?: string; meal?: string; food?: string }>();
-  const food = parseFoodParam(params.food);
+  const params = useLocalSearchParams<{ date?: string; meal?: string; food?: string; grams?: string }>();
+  // Memo: el alimento se usa en las opciones de la barra, que no deben cambiar en cada render.
+  const food = useMemo(() => parseFoodParam(params.food), [params.food]);
+  const headerRight = useMemo(() => {
+    if (!food) return undefined;
+    const HeaderStar = () => <FavoriteButton food={food} />;
+    return HeaderStar;
+  }, [food]);
   const date = parseDateParam(params.date); // R5.5: el día que se está viendo en Hoy
 
-  const [gramsText, setGramsText] = useState(String(GRAMS_LIMITS.default)); // R5.1
+  // R5.1: 100 g, o los gramos de la última vez si viene de Recientes o Favoritos (Spec 004 · R1.3, R2.3)
+  const [gramsText, setGramsText] = useState(formatGrams(parseGramsParam(params.grams)));
   const [mealType, setMealType] = useState<MealType>(parseMealParam(params.meal));
   const add = useAddEntry();
 
@@ -49,6 +57,7 @@ export default function NewLogScreen() {
 
   return (
     <Screen keyboardOffset={headerHeight}>
+      <Stack.Screen options={{ headerRight }} />
       <LogForm
         food={food}
         gramsText={gramsText}

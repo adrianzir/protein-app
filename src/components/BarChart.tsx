@@ -32,6 +32,7 @@ type Props = {
 
 const AXIS_WIDTH = 40;
 const LABEL_HEIGHT = 20;
+const LABEL_WIDTH = 32;
 const TOP_PADDING = 8;
 const MAX_BAR_WIDTH = 24;
 const BAR_RADIUS = 4;
@@ -138,12 +139,21 @@ export function BarChart({ data, goal, color, summary, onPressDay, labelEvery = 
         </View>
       </View>
 
-      <View style={[styles.labels, { marginLeft: AXIS_WIDTH }]} importantForAccessibility="no-hide-descendants">
-        {data.map((d, i) => (
-          <Text key={d.date} style={styles.label} numberOfLines={1}>
-            {i % labelEvery === 0 || i === data.length - 1 ? d.label : ''}
-          </Text>
-        ))}
+      {/* Etiquetas del eje X centradas bajo cada columna; con 30 días, cada N para que no se corten */}
+      <View style={styles.labels} importantForAccessibility="no-hide-descendants">
+        {width > 0
+          ? data.map((d, i) =>
+              i % labelEvery === 0 || i === data.length - 1 ? (
+                <Text
+                  key={d.date}
+                  style={[styles.label, { left: AXIS_WIDTH + column * i + column / 2 - LABEL_WIDTH / 2 }]}
+                  numberOfLines={1}
+                >
+                  {d.label}
+                </Text>
+              ) : null,
+            )
+          : null}
       </View>
     </View>
   );
@@ -168,11 +178,6 @@ const styles = StyleSheet.create({
   },
   hitRow: { position: 'absolute', top: 0, right: 0, flexDirection: 'row' },
   hit: { flex: 1 },
-  labels: { flexDirection: 'row', height: LABEL_HEIGHT },
-  label: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: font.small - 2,
-    color: colors.muted,
-  },
+  labels: { height: LABEL_HEIGHT },
+  label: { position: 'absolute', width: LABEL_WIDTH, textAlign: 'center', fontSize: font.small - 2, color: colors.muted },
 });
