@@ -11,10 +11,14 @@ type Props = PropsWithChildren<{
   kcal: number;
   empty: boolean;
   onAdd: () => void;
+  /** Alimentos de esta comida registrados ayer; con la comida vacía ofrece repetirlos (Spec 004 · R3.1). */
+  repeatCount?: number;
+  onRepeat?: () => void;
 }>;
 
 /** Sección de una comida con subtotal de kcal y botón "+" (R6.3). */
-export function MealSection({ title, kcal, empty, onAdd, children }: Props) {
+export function MealSection({ title, kcal, empty, onAdd, repeatCount = 0, onRepeat, children }: Props) {
+  const canRepeat = empty && repeatCount > 0 && onRepeat !== undefined;
   return (
     <View style={styles.card}>
       <View style={styles.header}>
@@ -31,7 +35,21 @@ export function MealSection({ title, kcal, empty, onAdd, children }: Props) {
           <Ionicons name="add-circle" size={28} color={colors.primary} />
         </Pressable>
       </View>
-      {empty ? <Text style={styles.empty}>Sin registros</Text> : children}
+      {canRepeat ? (
+        <Pressable
+          onPress={onRepeat}
+          accessibilityRole="button"
+          accessibilityLabel={`Repetir de ayer en ${title}: ${repeatCount} ${repeatCount === 1 ? 'alimento' : 'alimentos'}`}
+          style={({ pressed }) => [styles.repeat, pressed && styles.pressed]}
+        >
+          <Ionicons name="repeat" size={18} color={colors.primary} />
+          <Text style={styles.repeatText}>Repetir de ayer ({repeatCount})</Text>
+        </Pressable>
+      ) : empty ? (
+        <Text style={styles.empty}>Sin registros</Text>
+      ) : (
+        children
+      )}
     </View>
   );
 }
@@ -50,4 +68,7 @@ const styles = StyleSheet.create({
   kcal: { fontSize: font.small, color: colors.muted },
   add: { width: MIN_TOUCH, height: MIN_TOUCH, alignItems: 'center', justifyContent: 'center' },
   empty: { fontSize: font.small, color: colors.muted, paddingBottom: spacing.sm },
+  repeat: { minHeight: MIN_TOUCH, flexDirection: 'row', alignItems: 'center', gap: spacing.xs, alignSelf: 'flex-start' },
+  repeatText: { fontSize: font.body, color: colors.primary, fontWeight: '600' },
+  pressed: { opacity: 0.6 },
 });

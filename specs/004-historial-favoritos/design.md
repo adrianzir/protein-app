@@ -137,7 +137,7 @@ Con ~10 registros diarios, 30 días son ~300 filas pequeñas: una sola consulta,
 ### 6.4 Progreso (R4) — `src/app/(app)/(tabs)/progress.tsx`
 - Pestaña **Progreso** (ícono `stats-chart-outline`) entre Hoy y Perfil (Q1).
 - Arriba: `ChipGroup` **7 días / 30 días**, navegador de período (◀ "1–7 oct" ▶; ▶ desactivado si el período termina hoy) y `ChipGroup` de métrica.
-- Gráfico (`components/BarChart.tsx`, SVG): una barra por día; días sin registros sin barra y con un punto gris en la base; línea punteada de meta con etiqueta; 3 marcas en el eje. En 30 días las etiquetas del eje X se muestran cada 5 días.
+- Gráfico (`components/BarChart.tsx`, SVG): una barra por día; días sin registros sin barra y con un punto gris en la base; línea de meta continua en tinta de texto con etiqueta "Meta 1,7k" (la cuadrícula es gris y fina, así la meta se distingue sin trazo punteado); 3 marcas en el eje; barras de hasta 24 px con el extremo superior redondeado. Los textos del gráfico usan colores de texto, nunca el color de la serie. En 30 días las etiquetas del eje X se muestran cada 5 días.
 - Cada barra es un `Pressable` accesible ("Lunes 6 de octubre: 1850 kcal") que navega a Hoy con `router.navigate({ pathname: '/', params: { date } })` (R4.7).
 - El contenedor del gráfico tiene `accessibilityLabel` con el resumen en texto del período (R6.4).
 - Debajo, el resumen: promedio diario de kcal y macros, "Días con registros: 5 de 7", "Días dentro de la meta: 3".

@@ -41,11 +41,11 @@
 
 ## Bloque D · Componentes
 
-- [ ] **T11 · `FoodRow`** con `subtitle` y estrella de favorito. _(R1.2, R2.5)_
+- [x] **T11 · `FoodRow`** con `subtitle` y estrella de favorito. _(R1.2, R2.5)_
   ✔ Test de componente: muestra subtítulo y estrella solo cuando corresponde.
-- [ ] **T12 · `MealSection`** con "Repetir de ayer (N)" cuando está vacía. _(R3.1)_
+- [x] **T12 · `MealSection`** con "Repetir de ayer (N)" cuando está vacía. _(R3.1)_
   ✔ Test de componente: aparece solo con comida vacía y `repeatCount > 0`; llama a `onRepeat`.
-- [ ] **T13 · `BarChart`** (SVG): barras, días vacíos, línea de meta, marcas del eje, barras accesibles y resumen en texto. _(R4.3, R4.6, R4.7, R6.4)_
+- [x] **T13 · `BarChart`** (SVG): barras, días vacíos, línea de meta, marcas del eje, barras accesibles y resumen en texto. _(R4.3, R4.6, R4.7, R6.4)_
   ✔ Test de componente: cantidad de barras, sin línea cuando no hay meta, `accessibilityLabel` del gráfico y de cada barra, toque en una barra.
 
 ## Bloque E · Pantallas
