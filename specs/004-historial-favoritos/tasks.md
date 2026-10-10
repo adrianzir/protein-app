@@ -19,13 +19,13 @@
 
 ## Bloque B · Dominio (funciones puras + tests)
 
-- [ ] **T3 · `features/foods/key.ts`**: `foodKey(ref)` para catálogo, propio, Open Food Facts y alimento sin id. _(R1.4, R2.5)_
+- [x] **T3 · `features/foods/key.ts`**: `foodKey(ref)` para catálogo, propio, Open Food Facts y alimento sin id. _(R1.4, R2.5)_
   ✔ Tests de cada fuente; el mismo alimento desde un registro y desde la búsqueda da la misma clave.
-- [ ] **T4 · `features/foods/recents.ts`**: `pickRecents` y `lastGramsFor`. _(R1.1–R1.5, R2.3)_
+- [x] **T4 · `features/foods/recents.ts`**: `pickRecents` y `lastGramsFor`. _(R1.1–R1.5, R2.3)_
   ✔ Tests: deduplica por clave quedándose con el más reciente, respeta el límite de 20, conserva gramos y valores del último registro, lista vacía.
-- [ ] **T5 · `parseGramsParam`** en `features/diary/params.ts`. _(R1.3, R2.3)_
+- [x] **T5 · `parseGramsParam`** en `features/diary/params.ts`. _(R1.3, R2.3)_
   ✔ Tests: válido, vacío, texto, 0, > 5000 → 100 g.
-- [ ] **T6 · `features/progress/stats.ts`**: `periodDays`, `shiftPeriod`, `dailyTotals`, `periodSummary`, `chartScale`. _(R4.2, R4.5, R4.6, R5.1, R5.3)_
+- [x] **T6 · `features/progress/stats.ts`**: `periodDays`, `shiftPeriod`, `dailyTotals`, `periodSummary`, `chartScale`. _(R4.2, R4.5, R4.6, R5.1, R5.3)_
   ✔ Tests: cambio de mes y de año, no pasar de hoy, días vacíos = `null`, totales iguales a `sumMacros`, ±10 % en el borde, sin meta, sin registros, escala que incluye la meta.
 
 ## Bloque C · Datos y dependencias

@@ -2,7 +2,7 @@ import type { FoodRef, FoodSource } from '@/features/foods/types';
 import type { ISODate } from '@/lib/date';
 import { supabase } from '@/lib/supabase';
 
-import type { Macros, MealType } from './macros';
+import { roundGrams, type Macros, type MealType } from './macros';
 
 /** Fila de `public.food_logs` (kcal, protein_g, carbs_g y fat_g son columnas generadas). */
 export type FoodLogRow = {
@@ -44,8 +44,7 @@ export type NewDiaryEntry = {
 
 export type DiaryEntryPatch = { grams: number; mealType: MealType };
 
-/** La columna es numeric(6,1). */
-export const roundGrams = (g: number) => Math.round(g * 10) / 10;
+export { roundGrams } from './macros';
 
 export function entryFromRow(row: FoodLogRow): DiaryEntry {
   return {
