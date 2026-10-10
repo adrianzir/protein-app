@@ -1,4 +1,5 @@
 import type { FoodRef, FoodSource } from '@/features/foods/types';
+import type { DayRow } from '@/features/progress/stats';
 import type { ISODate } from '@/lib/date';
 import { supabase } from '@/lib/supabase';
 
@@ -127,4 +128,54 @@ export async function updateEntry(id: string, patch: DiaryEntryPatch): Promise<D
 export async function deleteEntry(id: string): Promise<void> {
   const { error } = await supabase.from('food_logs').delete().eq('id', id);
   if (error) throw error;
+}
+
+/** Registros desde `since` (incluido), del más nuevo al más antiguo, para Recientes (Spec 004 · R1). */
+export const RECENT_ROWS_LIMIT = 300;
+
+export async function fetchRecentEntries(since: ISODate): Promise<DiaryEntry[]> {
+  const { data, error } = await supabase
+    .from('food_logs')
+    .select('*')
+    .gte('eaten_on', since)
+    .order('created_at', { ascending: false })
+    .limit(RECENT_ROWS_LIMIT);
+  if (error) throw error;
+  return (data as FoodLogRow[]).map(entryFromRow);
+}
+
+type RangeRow = Pick<FoodLogRow, 'eaten_on' | 'kcal' | 'protein_g' | 'carbs_g' | 'fat_g'>;
+
+export function dayRowFromRow(row: RangeRow): DayRow {
+  return {
+    eatenOn: row.eaten_on,
+    kcal: Number(row.kcal),
+    proteinG: Number(row.protein_g),
+    carbsG: Number(row.carbs_g),
+    fatG: Number(row.fat_g),
+  };
+}
+
+/** Macros de cada registro entre `from` y `to` (incluidos), en una sola consulta (Spec 004 · R5.2). */
+export async function fetchRangeRows(from: ISODate, to: ISODate): Promise<DayRow[]> {
+  const { data, error } = await supabase
+    .from('food_logs')
+    .select('eaten_on, kcal, protein_g, carbs_g, fat_g')
+    .gte('eaten_on', from)
+    .lte('eaten_on', to);
+  if (error) throw error;
+  return (data as RangeRow[]).map(dayRowFromRow);
+}
+
+/** Copias de registros para otro día y tipo de comida: mismo alimento, gramos y valores (Spec 004 · R3.3). */
+export function copiesOf(entries: readonly DiaryEntry[], eatenOn: ISODate, mealType: MealType): NewDiaryEntry[] {
+  return entries.map(({ grams, food }) => ({ eatenOn, mealType, grams, food }));
+}
+
+/** Un solo insert: Postgres guarda todas las filas o ninguna (Spec 004 · R3.3). */
+export async function addEntries(entries: readonly NewDiaryEntry[]): Promise<DiaryEntry[]> {
+  if (entries.length === 0) return [];
+  const { data, error } = await supabase.from('food_logs').insert(entries.map(entryToInsert)).select('*');
+  if (error) throw error;
+  return (data as FoodLogRow[]).map(entryFromRow);
 }

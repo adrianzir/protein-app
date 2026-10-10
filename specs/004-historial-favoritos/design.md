@@ -110,7 +110,7 @@ Con ~10 registros diarios, 30 días son ~300 filas pequeñas: una sola consulta,
 | `useRecentFoods()` | `['logs', 'recent']` | `pickRecents` sobre la consulta 3.2 |
 | `useFavorites()` | `['favorites']` | Lista + `Set` de claves para la estrella |
 | `useToggleFavorite()` | invalida `['favorites']` | Inserta (23505 = ya existía) o borra por `food_key` |
-| `useRangeTotals(from, to)` | `['logs', 'range', from, to]` | `dailyTotals` sobre la consulta 3.2 |
+| `useRangeTotals(end, length)` | `['logs', 'range', end, length]` | `dailyTotals` sobre la consulta 3.2 |
 | `useCopyEntries()` | invalida `['logs']` | Un solo `insert` con todas las filas: atómico, todos o ninguno (R3.3) |
 
 **Invalidación (R5.4):** las mutaciones del diario (agregar, editar, eliminar, copiar) pasan a invalidar el prefijo `['logs']` en vez de solo el día. TanStack Query recarga únicamente las consultas activas, así que Hoy, Recientes y Progreso se actualizan sin costo extra.

@@ -30,13 +30,13 @@
 
 ## Bloque C · Datos y dependencias
 
-- [ ] **T7 · API y hooks de favoritos y recientes**: `useFavorites`, `useToggleFavorite` (23505 = éxito), `useRecentFoods`. _(R1.1, R2.1, R2.6)_
+- [x] **T7 · API y hooks de favoritos y recientes**: `useFavorites`, `useToggleFavorite` (23505 = éxito), `useRecentFoods`. _(R1.1, R2.1, R2.6)_
   ✔ Tests de mapeo de filas ↔ `FoodRef` y del manejo de 23505.
-- [ ] **T8 · Totales por rango y copia de registros**: `useRangeTotals(from, to)` (una consulta) y `useCopyEntries` (un solo `insert`). _(R3.3, R5.2)_
+- [x] **T8 · Totales por rango y copia de registros**: `useRangeTotals(end, length)` (una consulta) y `useCopyEntries` (un solo `insert`). _(R3.3, R5.2)_
   ✔ Tests de la construcción de filas copiadas (mismo alimento, gramos y valores; nuevo día y comida).
-- [ ] **T9 · Invalidación por prefijo `['logs']`** en todas las mutaciones del diario. _(R5.4)_
+- [x] **T9 · Invalidación por prefijo `['logs']`** en todas las mutaciones del diario. _(R5.4)_
   ✔ Test de hook: tras agregar un registro se invalidan el día, recientes y rangos.
-- [ ] **T10 · Dependencia `react-native-svg`** con `npx expo install`. _(R6.1)_
+- [x] **T10 · Dependencia `react-native-svg`** con `npx expo install`. _(R6.1)_
   ✔ `npx expo-doctor` sin problemas y `expo export` para Android e iOS compila.
 
 ## Bloque D · Componentes
