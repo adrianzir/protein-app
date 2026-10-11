@@ -1,6 +1,6 @@
 # Spec 004 · Historial, favoritos y recientes — Tareas
 
-**Estado:** Aprobado (2026-10-10)
+**Estado:** Implementado (2026-10-11) · pendiente verificación en dispositivos (T19)
 **Requisitos:** [requirements.md](requirements.md) · **Diseño:** [design.md](design.md)
 
 **Convenciones** (iguales a las Specs 001 y 002)
@@ -61,11 +61,11 @@
 
 ## Bloque F · Cierre
 
-- [ ] **T18 · Prueba web de extremo a extremo** (Playwright, Supabase simulado) del recorrido completo de las tareas T14–T17. _(R1–R5)_
+- [x] **T18 · Prueba web de extremo a extremo** (Playwright, Supabase simulado) del recorrido completo de las tareas T14–T17. _(R1–R5)_
   ✔ Script en verde y capturas de pantalla.
 - [ ] **T19 · Verificación en dispositivos**: checklist manual en **Android e iOS** con Expo Go. _(R6.1, R6.4)_
   ✔ Checklist marcado (sección siguiente). **Lo hace el usuario.**
-- [ ] **T20 · Documentación**: README (favoritos, recientes, Progreso y migración nueva), spec → Implementado, PLAN.
+- [x] **T20 · Documentación**: README (favoritos, recientes, Progreso y migración nueva), spec → Implementado, PLAN.
 
 ---
 
@@ -80,6 +80,9 @@
 | H6 | Progreso con perfil incompleto y en un período sin registros | ☐ | ☐ |
 | H7 | Lector de pantalla (TalkBack / VoiceOver) en Progreso: lee el resumen y cada día | ☐ | ☐ |
 | H8 | Cerrar sesión y entrar en otro teléfono: los favoritos se conservan | ☐ | ☐ |
+
+## Verificación automática en web (T14–T18)
+Prueba de extremo a extremo con Playwright sobre la versión web (Supabase y Open Food Facts simulados), 11 pasos en verde y sin errores de página: Hoy ofrece "Repetir de ayer (2)" en el almuerzo y "(1)" en la cena, no en el desayuno con registros · cancelar no copia nada; la confirmación lista alimentos, gramos y total de kcal · confirmar copia los 2 registros en un solo insert · Buscar sin texto muestra Recientes sin repetir alimentos y con los gramos de la última vez · elegir un reciente abre Registrar con esos gramos · ★ en Registrar crea el favorito · el favorito aparece en Buscar y con estrella en los resultados · ★ en Editar registro lo marca y lo quita · Progreso 7 días: el total de hoy coincide con Hoy, "4 de 7" días con registros y ▶ desactivado · período anterior ("1 de 7"), volver, 30 días ("5 de 30") y métrica Proteína · tocar un día abre Hoy en esa fecha. Las capturas mostraron etiquetas del eje cortadas en 30 días; se corrigió centrándolas bajo cada columna.
 
 ## Trazabilidad requisitos → tareas
 | Req. | Tareas |

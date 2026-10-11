@@ -16,7 +16,7 @@ Registrar comidas por **foto**, **búsqueda** o **código de barras**, y calcula
 > La API key del modelo **nunca** va en la app: siempre pasa por el backend.
 
 ## 3. Flujo de reconocimiento por foto
-1. Usuario toma foto → se comprime (≤1024px) y se sube a Storage.
+1. Usuario toma foto → se comprime (≤1024px) y se envía a una Edge Function (la foto no se guarda; Spec 003 Q2).
 2. Edge Function envía la imagen al modelo pidiendo **JSON estructurado**: `[{alimento, gramos_estimados, confianza}]`.
 3. Cada alimento se cruza con USDA/Open Food Facts → macros por 100 g × gramos.
 4. **Pantalla de confirmación**: el usuario corrige alimentos y porciones (clave para la precisión).
@@ -41,7 +41,7 @@ Precisión esperada: identificación buena; **porciones ±20–30 %**. Por eso l
 | 1. Diario manual 🟡 ([spec](specs/001-diario-manual/)) | 2 sem | Perfil, metas, búsqueda de alimentos, registro, resumen diario |
 | 2. Código de barras 🟡 ([spec](specs/002-codigo-barras/)) | 1 sem | Escaneo con Open Food Facts |
 | 3. Foto con IA 📝 ([spec](specs/003-foto-ia/)) | 2–3 sem | Captura, análisis, pantalla de confirmación |
-| 4. Historial y gráficos 📝 ([spec](specs/004-historial-favoritos/)) | 1–2 sem | Tendencias semanales, favoritos, comidas recientes |
+| 4. Historial y gráficos 🟡 ([spec](specs/004-historial-favoritos/)) | 1–2 sem | Tendencias semanales, favoritos, comidas recientes |
 | 5. Beta y publicación | 2 sem | TestFlight / Play interno, ajustes, stores |
 
 ## 7. Costos y riesgos
@@ -54,7 +54,7 @@ Precisión esperada: identificación buena; **porciones ±20–30 %**. Por eso l
 Se trabaja con **Spec-Driven Development**: cada fase tiene su spec en `specs/` (requisitos → diseño → tareas) antes de implementar. Ver AGENTS.md.
 
 ## 9. Próximos pasos
-1. Crear el proyecto Supabase real, aplicar migraciones y ejecutar los checklists en dispositivos (Spec 001 T24 y Spec 002 T14) → Fases 1 y 2 ✅.
+1. Crear el proyecto Supabase real, aplicar migraciones y ejecutar los checklists en dispositivos (Spec 001 T24, Spec 002 T14 y Spec 004 T19) → Fases 1, 2 y 4 ✅.
 2. Medir la precisión del análisis de foto con platos reales usando el [prototipo](prototypes/photo-ai/) (antes de la spec de la Fase 3).
 
 🟡 = implementada, pendiente de verificación en dispositivos · 📝 = spec en preparación.

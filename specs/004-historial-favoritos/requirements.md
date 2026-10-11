@@ -1,6 +1,6 @@
 # Spec 004 · Historial, favoritos y recientes — Requisitos
 
-**Estado:** Aprobado (2026-10-09)
+**Estado:** Implementado (2026-10-11) · pendiente verificación en dispositivos (T19)
 **Fase del plan:** 4 (ver [PLAN.md](../../PLAN.md))
 **Depende de:** [Spec 001 · Diario manual](../001-diario-manual/requirements.md) (registros, metas, búsqueda)
 **Plataformas:** Android e iOS
