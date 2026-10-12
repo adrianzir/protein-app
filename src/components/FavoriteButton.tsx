@@ -1,10 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Alert, Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
 import { useFavorites, useToggleFavorite } from '@/features/favorites/hooks';
 import { foodKey } from '@/features/foods/key';
 import type { FoodRef } from '@/features/foods/types';
-import { errorMessage } from '@/lib/confirm';
+import { errorMessage, notify } from '@/lib/confirm';
 
 import { colors, MIN_TOUCH } from './theme';
 
@@ -19,7 +19,7 @@ export function FavoriteButton({ food }: { food: FoodRef }) {
   const onPress = () =>
     toggle.mutate(
       { food, favorite: !selected },
-      { onError: (e) => Alert.alert('No se pudo actualizar favoritos', errorMessage(e)) },
+      { onError: (e) => notify('No se pudo actualizar favoritos', errorMessage(e)) },
     );
 
   return (

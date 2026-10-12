@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { ActivityIndicator, Alert, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { Banner } from '@/components/Banner';
 import { DayNavigator } from '@/components/DayNavigator';
@@ -14,7 +14,7 @@ import { groupByMeal, MEAL_LABELS, sumMacros, type MealType } from '@/features/d
 import { isProfileComplete } from '@/features/profile/goals';
 import { useProfile } from '@/features/profile/hooks';
 import { parseDateParam } from '@/features/diary/params';
-import { confirmAction, errorMessage } from '@/lib/confirm';
+import { confirmAction, errorMessage, notify } from '@/lib/confirm';
 import { addDays, toLocalISODate } from '@/lib/date';
 import { formatGrams, formatInt } from '@/lib/format';
 
@@ -47,7 +47,7 @@ export default function TodayScreen() {
     if (!ok) return;
     copy.mutate(
       { entries: items, date, mealType: meal },
-      { onError: (e) => Alert.alert('No se pudo repetir la comida', errorMessage(e)) },
+      { onError: (e) => notify('No se pudo repetir la comida', errorMessage(e)) },
     );
   };
 

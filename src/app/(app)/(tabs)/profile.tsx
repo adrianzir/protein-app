@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ActivityIndicator, Alert, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useHeaderHeight } from 'expo-router/react-navigation';
 
 import { Banner } from '@/components/Banner';
@@ -23,7 +23,7 @@ import {
   type Sex,
 } from '@/features/profile/types';
 import { validateProfile, type ProfileDraft } from '@/features/profile/validation';
-import { errorMessage } from '@/lib/confirm';
+import { errorMessage, notify } from '@/lib/confirm';
 import { toLocalISODate, type ISODate } from '@/lib/date';
 import { decimalToText, parseDecimal } from '@/lib/format';
 import { supabase } from '@/lib/supabase';
@@ -100,8 +100,8 @@ function ProfileForm({ initial, loadError, onRetry }: { initial: Form; loadError
     setSubmitted(true);
     if (!result.ok) return;
     save.mutate(result.value, {
-      onSuccess: () => Alert.alert('Perfil guardado', 'Tus metas se actualizaron.'),
-      onError: (e) => Alert.alert('No se pudo guardar', errorMessage(e)),
+      onSuccess: () => notify('Perfil guardado', 'Tus metas se actualizaron.'),
+      onError: (e) => notify('No se pudo guardar', errorMessage(e)),
     });
   };
 

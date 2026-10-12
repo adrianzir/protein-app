@@ -1,7 +1,7 @@
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useHeaderHeight } from 'expo-router/react-navigation';
 import { useMemo, useState } from 'react';
-import { ActivityIndicator, Alert, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 import { Banner } from '@/components/Banner';
 import { Button } from '@/components/Button';
@@ -12,7 +12,7 @@ import { colors, font } from '@/components/theme';
 import type { DiaryEntry } from '@/features/diary/api';
 import { useDeleteEntry, useEntry, useUpdateEntry } from '@/features/diary/hooks';
 import { validateGrams, type MealType } from '@/features/diary/macros';
-import { confirmDestructive, errorMessage } from '@/lib/confirm';
+import { confirmDestructive, errorMessage, notify } from '@/lib/confirm';
 import { formatGrams, parseDecimal } from '@/lib/format';
 
 export default function EditLogScreen() {
@@ -62,7 +62,7 @@ function EditLogForm({ current, headerHeight }: { current: DiaryEntry; headerHei
     if (gramsError || grams == null) return;
     update.mutate(
       { id: current.id, patch: { grams, mealType } },
-      { onSuccess: () => router.back(), onError: (e) => Alert.alert('No se pudo guardar', errorMessage(e)) },
+      { onSuccess: () => router.back(), onError: (e) => notify('No se pudo guardar', errorMessage(e)) },
     );
   };
 
@@ -71,7 +71,7 @@ function EditLogForm({ current, headerHeight }: { current: DiaryEntry; headerHei
     if (!ok) return;
     remove.mutate(current, {
       onSuccess: () => router.back(),
-      onError: (e) => Alert.alert('No se pudo eliminar', errorMessage(e)),
+      onError: (e) => notify('No se pudo eliminar', errorMessage(e)),
     });
   };
 
