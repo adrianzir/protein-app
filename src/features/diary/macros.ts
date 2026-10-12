@@ -22,6 +22,9 @@ export const MEAL_LABELS: Record<MealType, string> = {
 
 export const GRAMS_LIMITS = { min: 0, max: 5000, default: 100 } as const;
 
+/** Las columnas de gramos son numeric(6,1). */
+export const roundGrams = (g: number) => Math.round(g * 10) / 10;
+
 export const ZERO_MACROS: Macros = { kcal: 0, proteinG: 0, carbsG: 0, fatG: 0 };
 
 /** Macros para una cantidad en gramos: valor por 100 g × gramos / 100. */

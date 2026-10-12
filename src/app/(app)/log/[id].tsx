@@ -1,10 +1,11 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useHeaderHeight } from 'expo-router/react-navigation';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, StyleSheet, Text, View } from 'react-native';
 
 import { Banner } from '@/components/Banner';
 import { Button } from '@/components/Button';
+import { FavoriteButton } from '@/components/FavoriteButton';
 import { LogForm } from '@/components/LogForm';
 import { Screen } from '@/components/Screen';
 import { colors, font } from '@/components/theme';
@@ -52,6 +53,10 @@ function EditLogForm({ current, headerHeight }: { current: DiaryEntry; headerHei
   const grams = parseDecimal(gramsText);
   const gramsError = validateGrams(grams ?? NaN);
   const busy = update.isPending || remove.isPending;
+  const headerRight = useMemo(() => {
+    const HeaderStar = () => <FavoriteButton food={current.food} />;
+    return HeaderStar;
+  }, [current.food]);
 
   const onSave = () => {
     if (gramsError || grams == null) return;
@@ -72,6 +77,7 @@ function EditLogForm({ current, headerHeight }: { current: DiaryEntry; headerHei
 
   return (
     <Screen keyboardOffset={headerHeight}>
+      <Stack.Screen options={{ headerRight }} />
       <LogForm
         food={current.food}
         gramsText={gramsText}

@@ -19,6 +19,8 @@ export const colors = {
   protein: '#2563eb',
   carbs: '#d97706',
   fat: '#9333ea',
+  // Estrella de favoritos (Spec 004 · R2.5).
+  star: '#f59e0b',
 } as const;
 
 export const spacing = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24 } as const;

@@ -2,7 +2,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 
 import type { FoodRef } from '@/features/foods/types';
 
-import { entryFromRow, entryToInsert, roundGrams, type FoodLogRow } from './api';
+import { addEntries, copiesOf, dayRowFromRow, entryFromRow, entryToInsert, roundGrams, type FoodLogRow } from './api';
 
 // El cliente real exige variables de entorno; estos tests solo prueban los mapeos.
 jest.mock('@/lib/supabase', () => ({ supabase: {} }));
@@ -85,5 +85,35 @@ describe('roundGrams', () => {
   it('1 decimal', () => {
     expect(roundGrams(33.333)).toBe(33.3);
     expect(roundGrams(0.05)).toBe(0.1);
+  });
+});
+
+describe('copiesOf (Spec 004 · R3.3)', () => {
+  it('copia alimento, gramos y valores al nuevo día y tipo de comida', () => {
+    const row: FoodLogRow = {
+      id: 'l1', user_id: 'u', eaten_on: '2026-10-08', meal_type: 'lunch', food_id: null, food_source: 'off',
+      external_id: '7802800716500', food_name: 'Yogur', food_brand: 'Soprole', grams: 155, kcal_100g: 95,
+      protein_100g: 3.2, carbs_100g: 15, fat_100g: 2.5, kcal: 147.25, protein_g: 4.96, carbs_g: 23.25,
+      fat_g: 3.875, created_at: '2026-10-08T13:00:00Z',
+    };
+    const yesterday = entryFromRow(row);
+    const [copy] = copiesOf([yesterday], '2026-10-09', 'breakfast');
+    expect(copy).toEqual({ eatenOn: '2026-10-09', mealType: 'breakfast', grams: 155, food: yesterday.food });
+    expect(entryToInsert(copy)).toMatchObject({
+      eaten_on: '2026-10-09', meal_type: 'breakfast', grams: 155, food_source: 'off',
+      external_id: '7802800716500', food_name: 'Yogur', kcal_100g: 95,
+    });
+  });
+
+  it('sin registros no se inserta nada', async () => {
+    await expect(addEntries([])).resolves.toEqual([]);
+  });
+});
+
+describe('dayRowFromRow', () => {
+  it('convierte las columnas generadas (numeric como texto) a números', () => {
+    expect(
+      dayRowFromRow({ eaten_on: '2026-10-09', kcal: '147.25' as unknown as number, protein_g: 4.96, carbs_g: 23.25, fat_g: 3.875 }),
+    ).toEqual({ eatenOn: '2026-10-09', kcal: 147.25, proteinG: 4.96, carbsG: 23.25, fatG: 3.875 });
   });
 });
