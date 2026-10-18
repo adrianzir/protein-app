@@ -43,6 +43,7 @@ Precisión esperada: identificación buena; **porciones ±20–30 %**. Por eso l
 | 3. Foto con IA 📝 ([spec](specs/003-foto-ia/)) | 2–3 sem | Captura, análisis, pantalla de confirmación |
 | 4. Historial y gráficos 🟡 ([spec](specs/004-historial-favoritos/)) | 1–2 sem | Tendencias semanales, favoritos, comidas recientes |
 | 5. Beta y publicación | 2 sem | TestFlight / Play interno, ajustes, stores |
+| 6. Monetización 📝 ([spec](specs/005-monetizacion/)) | 1–2 sem | Anuncios discretos (banner y nativos) y Premium sin anuncios |
 
 ## 7. Costos y riesgos
 - **Costo por foto** de IA (centavos de USD): limitar análisis diarios en plan gratuito.
