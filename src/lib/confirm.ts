@@ -1,5 +1,14 @@
 import { Alert, Platform } from 'react-native';
 
+/** Aviso simple con OK; en web Alert.alert no hace nada, se usa window.alert. */
+export function notify(title: string, message: string): void {
+  if (Platform.OS === 'web') {
+    globalThis.alert?.(`${title}\n\n${message}`);
+    return;
+  }
+  Alert.alert(title, message);
+}
+
 /** Confirmación con Cancelar; en web Alert no admite botones, se usa window.confirm. */
 export function confirmAction(
   title: string,

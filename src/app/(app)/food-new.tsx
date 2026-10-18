@@ -1,7 +1,7 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useHeaderHeight } from 'expo-router/react-navigation';
 import { useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '@/components/Button';
 import { NumberField } from '@/components/NumberField';
@@ -12,7 +12,7 @@ import { parseDateParam, parseMealParam } from '@/features/diary/params';
 import { parseBarcodeParam } from '@/features/barcode/gtin';
 import { useCreateFood } from '@/features/foods/hooks';
 import { encodeFoodParam, validateCustomFood } from '@/features/foods/validation';
-import { errorMessage } from '@/lib/confirm';
+import { errorMessage, notify } from '@/lib/confirm';
 import { parseDecimal } from '@/lib/format';
 
 export default function NewFoodScreen() {
@@ -59,7 +59,7 @@ export default function NewFoodScreen() {
     create.mutate({ ...result.value, barcode }, {
       onSuccess: (food) =>
         router.replace({ pathname: '/log/new', params: { date, meal, food: encodeFoodParam(food) } }),
-      onError: (e) => Alert.alert('No se pudo guardar', errorMessage(e)),
+      onError: (e) => notify('No se pudo guardar', errorMessage(e)),
     });
   };
 

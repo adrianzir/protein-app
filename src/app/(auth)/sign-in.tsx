@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, TextInput } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { notify } from '@/lib/confirm';
 import { supabase } from '@/lib/supabase';
 import { validateCredentials } from '@/lib/validation';
 
@@ -12,7 +13,7 @@ export default function SignInScreen() {
 
   async function submit(mode: 'signIn' | 'signUp') {
     const error = validateCredentials(email, password);
-    if (error) return Alert.alert('Revisa tus datos', error);
+    if (error) return notify('Revisa tus datos', error);
 
     setBusy(true);
     const credentials = { email: email.trim(), password };
@@ -22,9 +23,9 @@ export default function SignInScreen() {
         : await supabase.auth.signUp(credentials);
     setBusy(false);
 
-    if (result.error) return Alert.alert('Error', result.error.message);
+    if (result.error) return notify('Error', result.error.message);
     if (mode === 'signUp' && !result.data.session) {
-      Alert.alert('Revisa tu correo', 'Te enviamos un enlace para confirmar tu cuenta.');
+      notify('Revisa tu correo', 'Te enviamos un enlace para confirmar tu cuenta.');
     }
   }
 

@@ -1,7 +1,7 @@
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useHeaderHeight } from 'expo-router/react-navigation';
 import { useMemo, useState } from 'react';
-import { Alert, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 import { Button } from '@/components/Button';
 import { FavoriteButton } from '@/components/FavoriteButton';
@@ -12,7 +12,7 @@ import { useAddEntry } from '@/features/diary/hooks';
 import { validateGrams, type MealType } from '@/features/diary/macros';
 import { parseDateParam, parseGramsParam, parseMealParam } from '@/features/diary/params';
 import { parseFoodParam } from '@/features/foods/validation';
-import { errorMessage } from '@/lib/confirm';
+import { errorMessage, notify } from '@/lib/confirm';
 import { formatGrams, parseDecimal } from '@/lib/format';
 
 export default function NewLogScreen() {
@@ -50,7 +50,7 @@ export default function NewLogScreen() {
       { eatenOn: date, mealType, grams, food },
       {
         onSuccess: () => router.dismissTo({ pathname: '/', params: { date } }),
-        onError: (e) => Alert.alert('No se pudo guardar', errorMessage(e)),
+        onError: (e) => notify('No se pudo guardar', errorMessage(e)),
       },
     );
   };
